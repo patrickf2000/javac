@@ -206,11 +206,7 @@ void JavaFile::writeFuncs() {
 		writer->write_opcode(0x00);
 		writer->write_opcode((unsigned char)code_index);
 		
-		//Code attribute of 21 bytes
-		/*writer->write_opcode(0x00);
-		writer->write_opcode(0x00);
-		writer->write_opcode(0x00);
-		writer->write_opcode(0x15);*/
+		//Code attribute size
 		writer->write_int(func->code.size()+12);
 		
 		//Stack size 2, local var size 1
@@ -255,12 +251,10 @@ void JavaFile::write() {
 	writer->write_opcode(0x03);
 	
 	//Zero interfaces
-	writer->write_opcode(0x00);
-	writer->write_opcode(0x00);
+	writer->write_short(0);
 	
 	//Zero fields
-	writer->write_opcode(0x00);
-	writer->write_opcode(0x00);
+	writer->write_short(0);
 	
 	//Number of methods
 	writer->write_opcode(0x00);
@@ -269,13 +263,8 @@ void JavaFile::write() {
 	//Write the functions
 	writeFuncs();
 		
-	//Zero attributes
-	writer->write_opcode(0x00);
-	writer->write_opcode(0x00);
-	
-	//Zero attributes
-	writer->write_opcode(0x00);
-	writer->write_opcode(0x00);
+	//EOF padding
+	writer->write_int(0);
 		
 	writer->write();
 }
