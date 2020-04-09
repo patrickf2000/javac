@@ -22,7 +22,7 @@ int main() {
 	writer.addNameType("println", "(Ljava/lang/String;)V");
 	
 	writer.addMethodRef("java/io/PrintStream");
-	writer.addNameType("print", "(I)V");
+	writer.addNameType("println", "(I)V");
 	
 	//Reference to our main function
 	writer.addPoolAttr("main");
@@ -32,6 +32,7 @@ int main() {
 	//Create the main func
 	auto func = new JavaFunc();
 	func->setPool(writer.getPool());
+	func->setRefs(writer.getRefs());
 	func->setAttributes(JFuncAttr::Public);
 	func->setAttributes(JFuncAttr::Static);
 	
@@ -40,15 +41,15 @@ int main() {
 	
 	func->getStatic("out");
 	func->loadConst("Hello World");
-	func->callFunc("println");
+	func->callFunc("println", "(Ljava/lang/String;)V");
 	
 	func->getStatic("out");
 	func->loadConst(str1);
-	func->callFunc("println");
+	func->callFunc("println", "(Ljava/lang/String;)V");
 	
 	func->getStatic("out");
 	func->loadInt(10);
-	func->callFunc("print");
+	func->callFunc("println", "(I)V");
 	func->retVoid();
 	
 	writer.addFunc(func);

@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "javafile.hh"
 
 //Create the java file and write some initial information
@@ -92,6 +94,12 @@ void JavaFile::addNameType(std::string name, std::string type) {
 	c.field = "";
 	c.pos = -1;
 	c.type = OpType::NameType;
+	
+	FuncRef ref;
+	ref.pos = pool_size - 1;
+	ref.type = type;
+	ref.name = name;
+	funcRefs.push_back(ref);
 	
 	c.padding.push_back((unsigned char)pool_size);
 	c.padding.push_back(0x00);
@@ -268,3 +276,11 @@ void JavaFile::write() {
 		
 	writer->write();
 }
+
+//TODO: Delete this
+void JavaFile::printRefs() {
+	for (auto ref : funcRefs) {
+		std::cout << "[" << ref.pos << "] " << ref.name << " -> " << ref.type << std::endl;
+	}
+}
+

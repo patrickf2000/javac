@@ -6,6 +6,7 @@
 
 #include "writer.hh"
 #include "javafunc.hh"
+#include "types.hh"
 
 enum class OpType {
 	None = 0x00,
@@ -31,6 +32,10 @@ public:
 		return labels;
 	}
 	
+	std::vector<FuncRef> getRefs() {
+		return funcRefs;
+	}
+	
 	void addString(std::string str);
 	void addReference(std::string str);
 	void addFieldRef(std::string name);
@@ -46,6 +51,8 @@ public:
 	void writeFuncs();
 	
 	void write();
+	
+	void printRefs();
 private:
 	BinWriter *writer;
 	std::string class_name = "";
@@ -54,4 +61,6 @@ private:
 	std::vector<JavaFunc *> funcs;
 	std::map<std::string, int> labels;
 	int pool_size = 1;
+	
+	std::vector<FuncRef> funcRefs;
 };
