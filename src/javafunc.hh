@@ -13,6 +13,12 @@ enum class JFuncAttr {
 	Static = 0x08
 };
 
+enum class FuncType {
+	None = 0x00,
+	Virtual = 0xB6,
+	Static = 0xB8
+};
+
 enum class JavaCode {
 	None = 0x00,
 	IAdd = 0x60
@@ -29,8 +35,7 @@ public:
 	//Functions to add code
 	void getStatic(std::string name);
 	void loadStrConst(std::string name);
-	void callFunc(std::string name, std::string type);
-	void callStaticFunc(std::string name, std::string type);
+	void callFunc(std::string name, std::string type, FuncType ftype);
 	void loadInt(int val);
 	void addSingle(JavaCode c);
 	void retVoid();

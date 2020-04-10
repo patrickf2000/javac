@@ -42,7 +42,7 @@ void JavaFunc::loadStrConst(std::string name) {
 }
 
 //Invoke a function
-void JavaFunc::callFunc(std::string name, std::string type) {
+void JavaFunc::callFunc(std::string name, std::string type, FuncType ftype) {
 	short loco = 0;
 
 	for (auto func : refs) {
@@ -55,26 +55,7 @@ void JavaFunc::callFunc(std::string name, std::string type) {
 	buf[0] = (loco & 0xff00) >> 8;
 	buf[1] = (loco & 0x00ff);
 	
-	code.push_back(0xB6);
-	code.push_back(buf[0]);
-	code.push_back(buf[1]);
-}
-
-//Invoke a static method
-void JavaFunc::callStaticFunc(std::string name, std::string type) {
-	short loco = 0;
-
-	for (auto func : refs) {
-		if (func.name == name && func.type == type) {
-			loco = func.pos;
-		}
-	}
-	
-	unsigned char buf[2];
-	buf[0] = (loco & 0xff00) >> 8;
-	buf[1] = (loco & 0x00ff);
-	
-	code.push_back(0xB8);
+	code.push_back((unsigned char)ftype);
 	code.push_back(buf[0]);
 	code.push_back(buf[1]);
 }
