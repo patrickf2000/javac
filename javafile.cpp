@@ -52,9 +52,9 @@ void JavaFile::writeFuncs() {
 		
 		//Stack size 2, local var size 1
 		writer->write_opcode(0x00);
-		writer->write_opcode(0x02);
+		writer->write_opcode(0x07);
 		writer->write_opcode(0x00);
-		writer->write_opcode(0x01);
+		writer->write_opcode(0x02);
 		
 		//Write the code size (is an int)
 		writer->write_int(func->code.size());

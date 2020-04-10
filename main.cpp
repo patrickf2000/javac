@@ -96,6 +96,8 @@ int main() {
 	
 	func->getStatic("out");
 	func->loadInt(10);
+	func->loadInt(32);
+	func->addSingle(JavaCode::IAdd);
 	func->callFunc("println", "(I)V");
 	
 	func->callStaticFunc("sayHello", "()V");
