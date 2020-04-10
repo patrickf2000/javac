@@ -13,8 +13,10 @@ public:
 	void addString(std::string str);
 	void write();
 	
+	JavaFunc *createConstructor();
 	JavaFunc *createMain();
 private:
+	std::string class_name = "";
 	JavaFile *jfile;
 	JavaPool *jpool;
 };

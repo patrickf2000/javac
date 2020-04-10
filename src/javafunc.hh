@@ -16,11 +16,13 @@ enum class JFuncAttr {
 enum class FuncType {
 	None = 0x00,
 	Virtual = 0xB6,
+	Special = 0xB7,
 	Static = 0xB8
 };
 
 enum class JavaCode {
 	None = 0x00,
+	ALoad0 = 0x2A,
 	IAdd = 0x60,
 	IMul = 0x68,
 	RetVoid = 0xB1

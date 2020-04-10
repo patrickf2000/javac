@@ -2,8 +2,20 @@
 
 //Sets everything up
 JavaBuilder::JavaBuilder(std::string name) {
+	class_name = name;
 	jfile = new JavaFile(name);
 	jpool = new JavaPool(name);
+	
+	//Reference to the constructor
+	
+	Ref ref;
+	ref.base_lib = "java/lang/Object";
+	ref.base_name = class_name;
+	ref.name = "<init>";
+	ref.type = "()V";
+	jpool->useMethod(ref);
+	jpool->addAttribute("<init>");
+	jpool->addAttribute("()V");
 	
 	//Required attributes
 	jpool->addAttribute("Code");
@@ -46,6 +58,19 @@ void JavaBuilder::addString(std::string str) {
 //Writes everything to a class file
 void JavaBuilder::write() {
 	jfile->write(jpool);
+}
+
+//Creates the class constructor
+JavaFunc *JavaBuilder::createConstructor() {
+	auto func = new JavaFunc("<init>", "()V");
+	func->setPool(jpool);
+	func->setAttributes(JFuncAttr::Public);
+	
+	func->addSingle(JavaCode::ALoad0);
+	func->callFunc("<init>", "()V", FuncType::Special);
+	
+	jfile->addFunc(func);
+	return func;
 }
 
 //Creates the main function and returns a reference to it

@@ -12,6 +12,9 @@ int main() {
 	builder->addString(str1);
 	
 //===================================================================	
+	//Create the constructor
+	auto c = builder->createConstructor();
+	c->addSingle(JavaCode::RetVoid);
 	
 	//Create the main func
 	auto mainFunc = builder->createMain();

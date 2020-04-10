@@ -8,6 +8,7 @@
 
 struct Ref {
 	std::string base_lib;
+	std::string base_name;
 	std::string name;
 	std::string type;
 };

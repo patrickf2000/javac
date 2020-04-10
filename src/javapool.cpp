@@ -7,7 +7,7 @@ JavaPool::JavaPool(std::string class_name) {
 	pos += 2;
 	
 	addStringRef("java/lang/Object", OpType::Ref, true);
-	pool["java/lang/Object"] = pos + 1;
+	pool["java/lang/Object"] = pos;
 	pos += 2;
 }
 
@@ -60,7 +60,11 @@ void JavaPool::addRef(Ref ref, bool internal) {
 	code.push_back(0x00);
 	code.push_back((unsigned char)pos + 1);
 	
-	pool[ref.name] = pos;
+	//if (ref.base_name == "")
+		pool[ref.name] = pos;
+	//else
+		pool[ref.base_name] = pos;
+		
 	pool[ref.type] = pos + 1;
 	
 	pos += 2;
