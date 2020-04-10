@@ -65,6 +65,23 @@ void JavaFunc::addSingle(JavaCode c) {
 	code.push_back((unsigned char)c);
 }
 
+//Create a new class and call the constructor
+void JavaFunc::initClass(std::string name) {
+	short loco = pool[name];
+	
+	unsigned char buf[2];
+	buf[0] = (loco & 0xff00) >> 8;
+	buf[1] = (loco & 0x00ff);
+	
+	code.push_back(0xBB);
+	code.push_back(buf[0]);
+	code.push_back(buf[1]);
+	
+	code.push_back(0x59);
+	
+	callFunc(name, "()V", FuncType::Special);
+}
+
 //Integer functions
 //=================================================
 

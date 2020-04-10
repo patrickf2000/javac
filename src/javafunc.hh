@@ -42,6 +42,9 @@ public:
 	void callFunc(std::string name, std::string type, FuncType ftype);
 	void addSingle(JavaCode c);
 	
+	//Class functions
+	void initClass(std::string name);
+	
 	//Integer functions
 	void loadInt(int val);
 	void loadIntVar(std::string var);

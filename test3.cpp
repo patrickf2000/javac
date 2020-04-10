@@ -14,6 +14,10 @@ int main() {
 //===================================================================	
 	//Create the constructor
 	auto c = builder->createConstructor(true);
+	
+	c->getStatic("out");
+	c->loadStrConst(str1);
+	c->callFunc("println", "(Ljava/lang/String;)V", FuncType::Virtual);	
 	c->addSingle(JavaCode::RetVoid);
 	
 	//Create the main func
@@ -22,6 +26,8 @@ int main() {
 	mainFunc->getStatic("out");
 	mainFunc->loadStrConst(str1);
 	mainFunc->callFunc("println", "(Ljava/lang/String;)V", FuncType::Virtual);	
+	
+	mainFunc->initClass("Test3");
 	mainFunc->addSingle(JavaCode::RetVoid);
 	
 	//Save

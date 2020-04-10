@@ -6,7 +6,8 @@
 JavaPool::JavaPool(std::string name) {
 	class_name = name;
 	addStringRef(class_name, OpType::Ref, true);
-	pool[class_name] = pos + 1;
+	pool[class_name] = pos;
+	//pool[class_name] = pos + 1;
 	cpos = pos;
 	pos += 2;
 	
@@ -58,6 +59,12 @@ void JavaPool::addConstructor() {
 	code.push_back((unsigned char)cpos);
 	code.push_back(0x00);
 	code.push_back((unsigned char)cnt_pos);
+	
+	FuncRef func;
+	func.pos = pos - 1;
+	func.type = "()V";
+	func.name = class_name;
+	funcRefs.push_back(func);
 }
 
 //Add an attribute
@@ -78,7 +85,7 @@ void JavaPool::addRef(Ref ref, bool internal) {
 	//if (ref.base_name == "")
 		pool[ref.name] = pos;
 	//else
-		pool[ref.base_name] = pos;
+		//pool[ref.base_name] = pos;
 		
 	pool[ref.type] = pos + 1;
 	
