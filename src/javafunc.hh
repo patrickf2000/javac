@@ -37,11 +37,16 @@ public:
 	void getStatic(std::string name);
 	void loadStrConst(std::string name);
 	void callFunc(std::string name, std::string type, FuncType ftype);
-	void loadInt(int val);
 	void addSingle(JavaCode c);
+	
+	//Integer functions
+	void loadInt(int val);
+	void storeIntVar(std::string var, int val);
+	void createIntVar(std::string var, int val);
 	
 	//The code section
 	std::vector<unsigned char> code;
+	int locals = 2;
 	std::string name = "";
 	std::string type = "";
 private:
@@ -51,4 +56,8 @@ private:
 	//References to the string pool
 	std::map<std::string, int> pool;
 	std::vector<FuncRef> refs;
+	
+	//References to variables
+	std::map<std::string, int> int_vars;
+	int int_index = 1;
 };

@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "javafile.hh"
 
 //Create the java file and write some initial information
@@ -50,11 +52,14 @@ void JavaFile::writeFuncs() {
 		else
 			writer->write_int(func->code.size()+24);
 		
-		//Stack size 2, local var size 1
+		//Stack size
 		writer->write_opcode(0x00);
 		writer->write_opcode(0x07);
-		writer->write_opcode(0x00);
-		writer->write_opcode(0x02);
+		
+		//Local variables
+		//writer->write_opcode(0x00);
+		//writer->write_opcode(0x02);
+		writer->write_short((short)func->locals);
 		
 		//Write the code size (is an int)
 		writer->write_int(func->code.size());

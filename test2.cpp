@@ -20,6 +20,12 @@ int main() {
 	mainFunc->loadStrConst(str1);
 	mainFunc->callFunc("println", "(Ljava/lang/String;)V", FuncType::Virtual);
 	
+	mainFunc->createIntVar("n1", 1);
+	mainFunc->createIntVar("n2", 2);
+	mainFunc->createIntVar("n3", 3);
+	mainFunc->createIntVar("n4", 4);
+	mainFunc->createIntVar("n5", 5);
+	
 	mainFunc->addSingle(JavaCode::RetVoid);
 	
 	//Save

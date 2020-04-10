@@ -16,8 +16,12 @@ void BinWriter::write_opcode(unsigned char op) {
 
 //Write a short
 void BinWriter::write_short(unsigned short op) {
-	op = htonl(op);
-	writer.write((const char *)&op, sizeof(unsigned short));
+	unsigned char buf[2];
+	buf[0] = (op & 0xff00) >> 8;
+	buf[1] = (op & 0x00ff);
+	write_opcode(buf[0]);
+	write_opcode(buf[1]);
+	//writer.write((const char *)&op, sizeof(unsigned short));
 }
 
 //Write an integer

@@ -60,14 +60,44 @@ void JavaFunc::callFunc(std::string name, std::string type, FuncType ftype) {
 	code.push_back(buf[1]);
 }
 
+//Adds a single bytecode (one without arguments)
+void JavaFunc::addSingle(JavaCode c) {
+	code.push_back((unsigned char)c);
+}
+
+//Integer functions
+//=================================================
+
 //Load an integer
 void JavaFunc::loadInt(int val) {
 	code.push_back(0x10);
 	code.push_back((unsigned char)val);
 }
 
-//Adds a single bytecode (one without arguments)
-void JavaFunc::addSingle(JavaCode c) {
-	code.push_back((unsigned char)c);
+//Stores a value to an integer variable
+void JavaFunc::storeIntVar(std::string var, int val) {
+	int pos = int_vars[var];
+	loadInt(val);
+	
+	switch (pos) {
+		case 1: code.push_back(0x3C); break;
+		case 2: code.push_back(0x3D); break;
+		case 3: code.push_back(0x3E); break;
+		default: {
+			code.push_back(0x36);
+			code.push_back((unsigned char)pos);
+		}
+	}
 }
+
+//Create an integer variable
+void JavaFunc::createIntVar(std::string var, int val) {
+	int_vars[var] = int_index;
+	++int_index;
+	++locals;
+	
+	storeIntVar(var, val);
+}
+
+
 
