@@ -1,5 +1,26 @@
 #include "javafunc.hh"
 
+//The constructor and setup functions
+JavaFunc::JavaFunc(std::string name, std::string type) {
+	this->name = name;
+	this->type = type;
+}
+	
+void JavaFunc::setPool(JavaPool *pool) {
+	this->pool = pool->pool;
+	refs = pool->funcRefs;
+}
+
+//Attributes
+void JavaFunc::setAttributes(JFuncAttr attr) {
+	attributes += (unsigned char)attr;
+}
+
+unsigned char JavaFunc::getAttributes() {
+	return attributes;
+}
+
+//Load a static reference from the pool
 void JavaFunc::getStatic(std::string name) {
 	short loco = (short)pool[name];
 	
@@ -12,13 +33,15 @@ void JavaFunc::getStatic(std::string name) {
 	code.push_back(buf[1]);
 }
 
-void JavaFunc::loadConst(std::string name) {
+//Load a string constant to the stack
+void JavaFunc::loadStrConst(std::string name) {
 	int loco = pool[name];
 	
 	code.push_back(0x12);
 	code.push_back((unsigned char)loco);
 }
 
+//Invoke a function
 void JavaFunc::callFunc(std::string name, std::string type) {
 	short loco = 0;
 
@@ -37,11 +60,13 @@ void JavaFunc::callFunc(std::string name, std::string type) {
 	code.push_back(buf[1]);
 }
 
+//Load an integer
 void JavaFunc::loadInt(int val) {
 	code.push_back(0x10);
 	code.push_back((unsigned char)val);
 }
 
+//Return void
 void JavaFunc::retVoid() {
 	code.push_back(0xB1);
 }

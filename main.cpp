@@ -38,17 +38,13 @@ int main() {
 	
 	//Create the main func
 	//We want to print a message and an integer
-	auto func = new JavaFunc();
-	func->setPool(pool->pool);
-	func->setRefs(pool->funcRefs);
+	auto func = new JavaFunc("main", "([Ljava/lang/String;)V");
+	func->setPool(pool);
 	func->setAttributes(JFuncAttr::Public);
 	func->setAttributes(JFuncAttr::Static);
 	
-	func->name = "main";
-	func->type = "([Ljava/lang/String;)V";
-	
 	func->getStatic("out");
-	func->loadConst("Hello World");
+	func->loadStrConst("Hello World");
 	func->callFunc("println", "(Ljava/lang/String;)V");
 	
 	func->getStatic("out");
