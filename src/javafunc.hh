@@ -22,6 +22,7 @@ enum class FuncType {
 enum class JavaCode {
 	None = 0x00,
 	IAdd = 0x60,
+	IMul = 0x68,
 	RetVoid = 0xB1
 };
 
@@ -41,6 +42,8 @@ public:
 	
 	//Integer functions
 	void loadInt(int val);
+	void loadIntVar(std::string var);
+	void storeIntVar(std::string var);
 	void storeIntVar(std::string var, int val);
 	void createIntVar(std::string var, int val);
 	

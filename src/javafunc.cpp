@@ -74,11 +74,25 @@ void JavaFunc::loadInt(int val) {
 	code.push_back((unsigned char)val);
 }
 
-//Stores a value to an integer variable
-void JavaFunc::storeIntVar(std::string var, int val) {
+//Loads an integer variable to the stack
+void JavaFunc::loadIntVar(std::string var) {
 	int pos = int_vars[var];
-	loadInt(val);
 	
+	switch (pos) {
+		case 1: code.push_back(0x1B); break;
+		case 2: code.push_back(0x1C); break;
+		case 3: code.push_back(0x1D); break;
+		default: {
+			code.push_back(0x15);
+			code.push_back((unsigned char)pos);
+		}
+	}
+}
+
+//Stores an integer variable from the stack
+void JavaFunc::storeIntVar(std::string var) {
+	int pos = int_vars[var];
+
 	switch (pos) {
 		case 1: code.push_back(0x3C); break;
 		case 2: code.push_back(0x3D); break;
@@ -88,6 +102,12 @@ void JavaFunc::storeIntVar(std::string var, int val) {
 			code.push_back((unsigned char)pos);
 		}
 	}
+}
+
+//Stores a value to an integer variable
+void JavaFunc::storeIntVar(std::string var, int val) {
+	loadInt(val);
+	storeIntVar(var);
 }
 
 //Create an integer variable

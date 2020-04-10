@@ -26,6 +26,15 @@ int main() {
 	mainFunc->createIntVar("n4", 4);
 	mainFunc->createIntVar("n5", 5);
 	
+	mainFunc->loadIntVar("n2");
+	mainFunc->loadIntVar("n4");
+	mainFunc->addSingle(JavaCode::IMul);
+	mainFunc->storeIntVar("n5");
+	
+	mainFunc->getStatic("out");
+	mainFunc->loadIntVar("n5");
+	mainFunc->callFunc("println", "(I)V", FuncType::Virtual);
+	
 	mainFunc->addSingle(JavaCode::RetVoid);
 	
 	//Save
