@@ -39,32 +39,49 @@ int main() {
 	//Create the main func
 	auto mainFunc = builder->createMain();
 	
+	//Create the scanner
 	mainFunc->initClass("java/util/Scanner", "scanner");
 	mainFunc->getStatic("in");
 	mainFunc->callFunc("<init>", "(Ljava/io/InputStream;)V", FuncType::Special);
 	mainFunc->storeClassVar("scanner");
 	
+	//Create our three integer variables
 	mainFunc->createIntVar("x", 0);
-	//mainFunc->createIntVar("y", 0);
-	//mainFunc->createIntVar("answer", 0);
+	mainFunc->createIntVar("y", 0);
+	mainFunc->createIntVar("answer", 0);
 	
+	//Print the first message
 	mainFunc->getStatic("out");
 	mainFunc->loadStrConst(str1);
 	mainFunc->callFunc("println", "(Ljava/lang/String;)V", FuncType::Virtual);
 	
+	//Get input and store
 	mainFunc->loadClassVar("scanner");
 	mainFunc->callFunc("nextInt", "()I", FuncType::Virtual);
 	
 	mainFunc->storeIntVar("x");
 	
-	/*mainFunc->getStatic("out");
+	//Print the second message
+	mainFunc->getStatic("out");
 	mainFunc->loadStrConst(str2);
 	mainFunc->callFunc("println", "(Ljava/lang/String;)V", FuncType::Virtual);
 	
+	//Get input and store
 	mainFunc->loadClassVar("scanner");
 	mainFunc->callFunc("nextInt", "()I", FuncType::Virtual);
 	
-	mainFunc->storeIntVar("y");*/
+	mainFunc->storeIntVar("y");
+	
+	//Add
+	mainFunc->loadIntVar("x");
+	mainFunc->loadIntVar("y");
+	mainFunc->addSingle(JavaCode::IAdd);
+	mainFunc->storeIntVar("answer");
+	
+	//Print the answer
+	mainFunc->getStatic("out");
+	mainFunc->loadIntVar("answer");
+	mainFunc->callFunc("println", "(I)V", FuncType::Virtual);
 	
 	mainFunc->addSingle(JavaCode::RetVoid);
 	
