@@ -38,8 +38,6 @@ int main() {
 	
 	//Create the main func
 	//We want to print a message and an integer
-	writer.labels = pool->pool;
-	
 	auto func = new JavaFunc();
 	func->setPool(pool->pool);
 	func->setRefs(pool->funcRefs);
