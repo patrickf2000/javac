@@ -66,7 +66,7 @@ int main() {
 	func2->getStatic("out");
 	func2->loadStrConst("Hello World");
 	func2->callFunc("println", "(Ljava/lang/String;)V", FuncType::Virtual);
-	func2->retVoid();
+	func2->addSingle(JavaCode::RetVoid);
 	
 	writer.addFunc(func2);
 	
@@ -79,7 +79,7 @@ int main() {
 	func3->getStatic("out");
 	func3->loadInt(100);
 	func3->callFunc("println", "(I)V", FuncType::Virtual);
-	func3->retVoid();
+	func3->addSingle(JavaCode::RetVoid);
 	
 	writer.addFunc(func3);
 	
@@ -102,7 +102,7 @@ int main() {
 	
 	func->callFunc("sayHello", "()V", FuncType::Static);
 	func->callFunc("printNum", "()V", FuncType::Static);
-	func->retVoid();
+	func->addSingle(JavaCode::RetVoid);
 	
 	writer.addFunc(func);
 	

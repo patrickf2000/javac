@@ -21,7 +21,8 @@ enum class FuncType {
 
 enum class JavaCode {
 	None = 0x00,
-	IAdd = 0x60
+	IAdd = 0x60,
+	RetVoid = 0xB1
 };
 
 class JavaFunc {
@@ -38,7 +39,6 @@ public:
 	void callFunc(std::string name, std::string type, FuncType ftype);
 	void loadInt(int val);
 	void addSingle(JavaCode c);
-	void retVoid();
 	
 	//The code section
 	std::vector<unsigned char> code;

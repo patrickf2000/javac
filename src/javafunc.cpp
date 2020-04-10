@@ -71,7 +71,3 @@ void JavaFunc::addSingle(JavaCode c) {
 	code.push_back((unsigned char)c);
 }
 
-//Return void
-void JavaFunc::retVoid() {
-	code.push_back(0xB1);
-}
