@@ -13,49 +13,31 @@ int main() {
 	pool->useLibrary("java/io/PrintStream");
 	
 	pool->addString("Hello World");
-	//pool->addString(str1);
 	
+	//Add a reference to the System.out static variable
 	Ref ref;
 	ref.base_lib = "java/lang/System";
 	ref.name = "out";
 	ref.type = "Ljava/io/PrintStream;";
 	pool->addStaticRef(ref);
 	
+	//Use println to print strings
 	ref.base_lib = "java/io/PrintStream";
 	ref.name = "println";
 	ref.type = "(Ljava/lang/String;)V";
 	pool->useMethod(ref);
 	
+	//Use println to print ints
 	ref.type = "(I)V";
 	pool->useMethod(ref);
 	
+	//Add our main function
 	pool->addAttribute("main");
 	pool->addAttribute("([Ljava/lang/String;)V");
 	pool->addAttribute("Code");
 	
-	/*writer.addReference("java/lang/System");
-	writer.addReference("java/io/PrintStream");*/
-	
-	/*writer.addString("Hello World");
-	writer.addString(str1);*/
-	
-	//Reference to the static out variable
-	/*writer.addFieldRef("java/lang/System");
-	writer.addNameType("out", "Ljava/io/PrintStream;");*/
-	
-	//Println function call
-	/*writer.addMethodRef("java/io/PrintStream");
-	writer.addNameType("println", "(Ljava/lang/String;)V");
-	
-	writer.addMethodRef("java/io/PrintStream");
-	writer.addNameType("println", "(I)V");*/
-	
-	//Reference to our main function
-	/*writer.addPoolAttr("main");
-	writer.addPoolAttr("([Ljava/lang/String;)V");
-	writer.addPoolAttr("Code");*/
-	
 	//Create the main func
+	//We want to print a message and an integer
 	writer.labels = pool->pool;
 	
 	auto func = new JavaFunc();
@@ -71,10 +53,6 @@ int main() {
 	func->loadConst("Hello World");
 	func->callFunc("println", "(Ljava/lang/String;)V");
 	
-	/*func->getStatic("out");
-	func->loadConst(str1);
-	func->callFunc("println", "(Ljava/lang/String;)V");*/
-	
 	func->getStatic("out");
 	func->loadInt(10);
 	func->callFunc("println", "(I)V");
@@ -82,6 +60,7 @@ int main() {
 	
 	writer.addFunc(func);
 	
+	//Write it all out
 	writer.write(pool);
 
 	return 0;
