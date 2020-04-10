@@ -2,7 +2,6 @@
 
 void JavaFunc::getStatic(std::string name) {
 	short loco = (short)pool[name];
-	loco -= 2;
 	
 	unsigned char buf[2];
 	buf[0] = (loco & 0xff00) >> 8;
@@ -14,7 +13,7 @@ void JavaFunc::getStatic(std::string name) {
 }
 
 void JavaFunc::loadConst(std::string name) {
-	int loco = pool[name] - 1;
+	int loco = pool[name];
 	
 	code.push_back(0x12);
 	code.push_back((unsigned char)loco);
@@ -25,7 +24,7 @@ void JavaFunc::callFunc(std::string name, std::string type) {
 
 	for (auto func : refs) {
 		if (func.name == name && func.type == type) {
-			loco = func.pos - 1;
+			loco = func.pos;
 		}
 	}
 	

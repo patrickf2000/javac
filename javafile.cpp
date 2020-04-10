@@ -19,10 +19,10 @@ JavaFile::JavaFile(std::string cname) {
 	writer->write_opcode(0x34);
 	
 	//Add the class name to the string pool
-	addReference(class_name);
+	//addReference(class_name);
 	
 	//Add the super class
-	addReference("java/lang/Object");
+	//addReference("java/lang/Object");
 }
 
 //Adds a string to the pool
@@ -238,13 +238,17 @@ void JavaFile::writeFuncs() {
 }
 
 //Close and do the final writing
-void JavaFile::write() {
+void JavaFile::write(JavaPool *pool) {
+	std::cout << "Size: " << pool->getPoolSize() << std::endl;
 	//Write the constant pool size
 	writer->write_opcode(0x00);
-	writer->write_opcode((unsigned char)pool_size);
+	writer->write_opcode((unsigned char)pool->getPoolSize());
 	
 	//Write the constant pool
-	writeConsts();
+	for (auto c : pool->getCode()) {
+		writer->write_opcode(c);
+	}
+	//writeConsts();
 		
 	//Access modifier
 	writer->write_opcode(0x00);

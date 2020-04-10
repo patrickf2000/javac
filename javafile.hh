@@ -4,18 +4,10 @@
 #include <vector>
 #include <map>
 
+#include "javapool.hh"
 #include "writer.hh"
 #include "javafunc.hh"
 #include "types.hh"
-
-enum class OpType {
-	None = 0x00,
-	Ref = 0x07,
-	String = 0x08,
-	FieldRef = 0x09,
-	NameType = 0x0C,
-	MethodRef = 0x0A
-};
 
 struct Constant {
 	std::string field;
@@ -50,17 +42,17 @@ public:
 	void writeConsts();
 	void writeFuncs();
 	
-	void write();
+	void write(JavaPool *pool);
 	
 	void printRefs();
+	int pool_size = 1;
+	std::map<std::string, int> labels;
 private:
 	BinWriter *writer;
 	std::string class_name = "";
 	std::vector<Constant> consts;
 	std::vector<unsigned char> opcodes;
 	std::vector<JavaFunc *> funcs;
-	std::map<std::string, int> labels;
-	int pool_size = 1;
 	
 	std::vector<FuncRef> funcRefs;
 };
