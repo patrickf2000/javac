@@ -1,7 +1,7 @@
 #include <iostream>
 
-#include "javafile.hh"
-#include "javapool.hh"
+#include <javafile.hh>
+#include <javapool.hh>
 
 int main() {
 	JavaFile writer("HelloWorld");
