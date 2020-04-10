@@ -34,7 +34,22 @@ int main() {
 	//Add our main function
 	pool->addAttribute("main");
 	pool->addAttribute("([Ljava/lang/String;)V");
+	
+	//Add another function
+	pool->addAttribute("sayHello");
+	pool->addAttribute("()V");
+	
 	pool->addAttribute("Code");
+	pool->addAttribute("LineNumberTable");
+	
+	//Add a function
+	auto func2 = new JavaFunc("sayHello", "()V");
+	func2->setPool(pool);
+	func2->setAttributes(JFuncAttr::Public);
+	func2->setAttributes(JFuncAttr::Static);
+	func2->loadInt(3);
+	func2->retVoid();
+	writer.addFunc(func2);
 	
 	//Create the main func
 	//We want to print a message and an integer

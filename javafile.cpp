@@ -45,7 +45,10 @@ void JavaFile::writeFuncs() {
 		writer->write_opcode((unsigned char)code_index);
 		
 		//Code attribute size
-		writer->write_int(func->code.size()+12);
+		if (func->name == "main")
+			writer->write_int(func->code.size()+12);
+		else
+			writer->write_int(func->code.size()+24);
 		
 		//Stack size 2, local var size 1
 		writer->write_opcode(0x00);
@@ -64,6 +67,24 @@ void JavaFile::writeFuncs() {
 		//This goes at end
 		writer->write_opcode(0x00);
 		writer->write_opcode(0x00);
+		
+		//added
+		if (func->name != "main") {
+			writer->write_opcode(0x00);
+			writer->write_opcode(0x01);
+			
+			writer->write_opcode(0x00);
+			int lnt_index = labels["LineNumberTable"];
+			writer->write_opcode((unsigned char)lnt_index);
+			writer->write_int(6);
+			
+			writer->write_opcode(0x00);
+			writer->write_opcode(0x01);
+			
+			writer->write_int(0x01);
+			//writer->write_opcode(0x00);
+			//writer->write_opcode(0x01);
+		}
 	}
 }
 
@@ -100,8 +121,10 @@ void JavaFile::write(JavaPool *pool) {
 	writer->write_short(0);
 	
 	//Number of methods
+	int count = funcs.size();
+	
 	writer->write_opcode(0x00);
-	writer->write_opcode(0x01);
+	writer->write_opcode((unsigned char)count);
 	
 	//Write the functions
 	writeFuncs();
