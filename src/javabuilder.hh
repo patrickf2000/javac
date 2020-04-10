@@ -13,7 +13,7 @@ public:
 	void addString(std::string str);
 	void write();
 	
-	JavaFunc *createConstructor();
+	JavaFunc *createConstructor(bool init=false);
 	JavaFunc *createMain();
 private:
 	std::string class_name = "";

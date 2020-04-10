@@ -1,9 +1,13 @@
+#include <iostream>
+
 #include "javapool.hh"
 
 //Adds the class name and the super class to the pool
-JavaPool::JavaPool(std::string class_name) {
+JavaPool::JavaPool(std::string name) {
+	class_name = name;
 	addStringRef(class_name, OpType::Ref, true);
 	pool[class_name] = pos + 1;
+	cpos = pos;
 	pos += 2;
 	
 	addStringRef("java/lang/Object", OpType::Ref, true);
@@ -45,6 +49,17 @@ void JavaPool::useMethod(Ref ref, bool internal) {
 	addRef(ref, internal);
 }
 
+//Adds a reference to the constructor
+void JavaPool::addConstructor() {
+	pos += 1;
+	code.push_back((unsigned char)OpType::MethodRef);
+	code.push_back(0x00);
+	
+	code.push_back((unsigned char)cpos);
+	code.push_back(0x00);
+	code.push_back((unsigned char)cnt_pos);
+}
+
 //Add an attribute
 void JavaPool::addAttribute(std::string attr) {
 	pool[attr] = pos;
@@ -71,6 +86,9 @@ void JavaPool::addRef(Ref ref, bool internal) {
 	
 	//Add name type
 	//TODO: Can probably create separate func
+	if (ref.name == "<init>")
+		cnt_pos = pos - 1;
+		
 	code.push_back((unsigned char)OpType::NameType);
 	code.push_back(0x00);
 	

@@ -21,6 +21,7 @@ public:
 	void addString(std::string str);
 	void addStaticRef(Ref ref);
 	void useMethod(Ref ref, bool internal=false);
+	void addConstructor();
 	void addAttribute(std::string attr);
 	
 	//TODO: Move me
@@ -38,6 +39,10 @@ protected:
 	void addRef(Ref ref, bool internal=false);
 	void addStringRef(std::string str, OpType type, bool use_pos);
 private:
+	std::string class_name;
 	std::vector<unsigned char> code;
 	int pos = 1;
+	
+	int cpos = 0;
+	int cnt_pos = 0;
 };

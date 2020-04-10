@@ -7,7 +7,6 @@ JavaBuilder::JavaBuilder(std::string name) {
 	jpool = new JavaPool(name);
 	
 	//Reference to the constructor
-	
 	Ref ref;
 	ref.base_lib = "java/lang/Object";
 	ref.base_name = class_name;
@@ -61,7 +60,12 @@ void JavaBuilder::write() {
 }
 
 //Creates the class constructor
-JavaFunc *JavaBuilder::createConstructor() {
+JavaFunc *JavaBuilder::createConstructor(bool init) {
+	//Init to the constructor if needed
+	if (init) {
+		jpool->addConstructor();
+	}
+
 	auto func = new JavaFunc("<init>", "()V");
 	func->setPool(jpool);
 	func->setAttributes(JFuncAttr::Public);
@@ -70,6 +74,7 @@ JavaFunc *JavaBuilder::createConstructor() {
 	func->callFunc("<init>", "()V", FuncType::Special);
 	
 	jfile->addFunc(func);
+	
 	return func;
 }
 
