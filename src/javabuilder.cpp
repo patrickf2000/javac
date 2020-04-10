@@ -49,6 +49,11 @@ void JavaBuilder::useOutput() {
 	jpool->useMethod(ref);
 }
 
+//Adds a library to the constant pool and enables its use
+void JavaBuilder::useLibrary(std::string str) {
+	jpool->useLibrary(str);
+}
+
 //Adds a string to the constant pool and enables its use
 void JavaBuilder::addString(std::string str) {
 	jpool->addString(str);

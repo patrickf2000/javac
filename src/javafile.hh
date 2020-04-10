@@ -24,7 +24,7 @@ public:
 		funcs.push_back(fc);
 	}
 	
-	void writeFuncs();
+	void writeFuncs(JavaPool *pool);
 	
 	void write(JavaPool *pool);
 private:

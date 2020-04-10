@@ -20,7 +20,7 @@ JavaFile::JavaFile(std::string cname) {
 }
 
 //Write all functions to our file
-void JavaFile::writeFuncs() {
+void JavaFile::writeFuncs(JavaPool *pool) {
 	for (auto func : funcs) {
 		writer->write_opcode(0x00);
 		writer->write_opcode(func->getAttributes());
@@ -28,6 +28,15 @@ void JavaFile::writeFuncs() {
 		//Find the indexes
 		int name_index = labels[func->name];
 		int type_index = labels[func->type];
+		
+		if (func->name == "<init>") {
+			for (auto f : pool->funcRefs) {
+				if (f.name == func->name) {
+					name_index = f.pos + 2;
+					break;
+				}
+			}
+		}
 		
 		//Write the name
 		writer->write_opcode(0x00);
@@ -132,7 +141,7 @@ void JavaFile::write(JavaPool *pool) {
 	writer->write_opcode((unsigned char)count);
 	
 	//Write the functions
-	writeFuncs();
+	writeFuncs(pool);
 		
 	//EOF padding
 	writer->write_int(0);

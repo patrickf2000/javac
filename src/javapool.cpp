@@ -81,19 +81,15 @@ void JavaPool::addRef(Ref ref, bool internal) {
 	code.push_back((unsigned char)index);
 	code.push_back(0x00);
 	code.push_back((unsigned char)pos + 1);
-	
-	//if (ref.base_name == "")
-		pool[ref.name] = pos;
-	//else
-		//pool[ref.base_name] = pos;
-		
+
+	pool[ref.name] = pos;
 	pool[ref.type] = pos + 1;
 	
 	pos += 2;
 	
 	//Add name type
 	//TODO: Can probably create separate func
-	if (ref.name == "<init>")
+	if (ref.name == "<init>" && cnt_pos == -1)
 		cnt_pos = pos - 1;
 		
 	code.push_back((unsigned char)OpType::NameType);

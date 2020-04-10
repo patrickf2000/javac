@@ -43,7 +43,9 @@ public:
 	void addSingle(JavaCode c);
 	
 	//Class functions
-	void initClass(std::string name);
+	void initClass(std::string name, std::string v_name);
+	void storeClassVar(std::string name);
+	void loadClassVar(std::string name);
 	
 	//Integer functions
 	void loadInt(int val);
@@ -64,6 +66,10 @@ private:
 	//References to the string pool
 	std::map<std::string, int> pool;
 	std::vector<FuncRef> refs;
+	
+	//Reference to object variables
+	std::map<std::string, int> obj_vars;
+	int obj_index = 1;
 	
 	//References to variables
 	std::map<std::string, int> int_vars;

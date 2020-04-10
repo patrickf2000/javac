@@ -44,5 +44,5 @@ private:
 	int pos = 1;
 	
 	int cpos = 0;
-	int cnt_pos = 0;
+	int cnt_pos = -1;
 };

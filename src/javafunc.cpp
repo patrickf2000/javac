@@ -65,8 +65,11 @@ void JavaFunc::addSingle(JavaCode c) {
 	code.push_back((unsigned char)c);
 }
 
+//Class functions
+//=================================================
+
 //Create a new class and call the constructor
-void JavaFunc::initClass(std::string name) {
+void JavaFunc::initClass(std::string name, std::string v_name) {
 	short loco = pool[name];
 	
 	unsigned char buf[2];
@@ -79,7 +82,39 @@ void JavaFunc::initClass(std::string name) {
 	
 	code.push_back(0x59);
 	
-	callFunc(name, "()V", FuncType::Special);
+	obj_vars[v_name] = obj_index;
+	++obj_index;
+	++locals;
+}
+
+//Store a class variable
+void JavaFunc::storeClassVar(std::string name) {
+	int pos = obj_vars[name];
+	
+	switch (pos) {
+		case 1: code.push_back(0x4C); break;
+		case 2: code.push_back(0x4D); break;
+		case 3: code.push_back(0x4E); break;
+		default: {
+			code.push_back(0x3A);
+			code.push_back((unsigned char)pos);
+		}
+	}
+}
+
+//Load a class variable to the stack
+void JavaFunc::loadClassVar(std::string name) {
+	int pos = obj_vars[name];
+	
+	switch (pos) {
+		case 1: code.push_back(0x2B); break;
+		case 2: code.push_back(0x2C); break;
+		case 3: code.push_back(0x2D); break;
+		default: {
+			code.push_back(0x19);
+			code.push_back((unsigned char)pos);
+		}
+	}
 }
 
 //Integer functions

@@ -10,13 +10,15 @@ class JavaBuilder {
 public:
 	explicit JavaBuilder(std::string name);
 	void useOutput();
+	void useLibrary(std::string str);
 	void addString(std::string str);
 	void write();
 	
 	JavaFunc *createConstructor(bool init=false);
 	JavaFunc *createMain();
-private:
-	std::string class_name = "";
+	
 	JavaFile *jfile;
 	JavaPool *jpool;
+private:
+	std::string class_name = "";
 };
