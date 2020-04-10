@@ -33,7 +33,7 @@ void JavaPool::addStaticRef(Ref ref) {
 }
 
 //Add a method reference
-void JavaPool::useMethod(Ref ref) {
+void JavaPool::useMethod(Ref ref, bool internal) {
 	FuncRef func;
 	func.pos = pos;
 	func.type = ref.type;
@@ -42,7 +42,7 @@ void JavaPool::useMethod(Ref ref) {
 
 	code.push_back((unsigned char)OpType::MethodRef);
 	code.push_back(0x00);
-	addRef(ref);
+	addRef(ref, internal);
 }
 
 //Add an attribute
@@ -52,8 +52,9 @@ void JavaPool::addAttribute(std::string attr) {
 	++pos;
 }
 
-void JavaPool::addRef(Ref ref) {
+void JavaPool::addRef(Ref ref, bool internal) {
 	int index = pool[ref.base_lib];
+	if (internal) index = pool[ref.base_lib] - 1;
 	
 	code.push_back((unsigned char)index);
 	code.push_back(0x00);

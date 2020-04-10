@@ -19,7 +19,7 @@ public:
 	void useLibrary(std::string lib);
 	void addString(std::string str);
 	void addStaticRef(Ref ref);
-	void useMethod(Ref ref);
+	void useMethod(Ref ref, bool internal=false);
 	void addAttribute(std::string attr);
 	
 	//TODO: Move me
@@ -34,7 +34,7 @@ public:
 	std::map<std::string, int> pool;
 	std::vector<FuncRef> funcRefs;
 protected:
-	void addRef(Ref ref);
+	void addRef(Ref ref, bool internal=false);
 	void addStringRef(std::string str, OpType type, bool use_pos);
 private:
 	std::vector<unsigned char> code;

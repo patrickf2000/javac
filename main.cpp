@@ -31,6 +31,12 @@ int main() {
 	ref.type = "(I)V";
 	pool->useMethod(ref);
 	
+	//Add reference to our custom function
+	ref.base_lib = "HelloWorld";
+	ref.name = "sayHello";
+	ref.type = "()V";
+	pool->useMethod(ref, true);
+	
 	//Add our main function
 	pool->addAttribute("main");
 	pool->addAttribute("([Ljava/lang/String;)V");
@@ -47,8 +53,12 @@ int main() {
 	func2->setPool(pool);
 	func2->setAttributes(JFuncAttr::Public);
 	func2->setAttributes(JFuncAttr::Static);
-	func2->loadInt(3);
+	
+	func2->getStatic("out");
+	func2->loadStrConst("Hello World");
+	func2->callFunc("println", "(Ljava/lang/String;)V");
 	func2->retVoid();
+	
 	writer.addFunc(func2);
 	
 	//Create the main func
@@ -65,6 +75,8 @@ int main() {
 	func->getStatic("out");
 	func->loadInt(10);
 	func->callFunc("println", "(I)V");
+	
+	func->callStaticFunc("sayHello", "()V");
 	func->retVoid();
 	
 	writer.addFunc(func);

@@ -25,6 +25,7 @@ public:
 	void getStatic(std::string name);
 	void loadStrConst(std::string name);
 	void callFunc(std::string name, std::string type);
+	void callStaticFunc(std::string name, std::string type);
 	void loadInt(int val);
 	void retVoid();
 	
