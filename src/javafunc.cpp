@@ -82,8 +82,8 @@ void JavaFunc::initClass(std::string name, std::string v_name) {
 	
 	code.push_back(0x59);
 	
-	obj_vars[v_name] = obj_index;
-	++obj_index;
+	obj_vars[v_name] = var_index;
+	++var_index;
 	++locals;
 }
 
@@ -164,8 +164,8 @@ void JavaFunc::storeIntVar(std::string var, int val) {
 
 //Create an integer variable
 void JavaFunc::createIntVar(std::string var, int val) {
-	int_vars[var] = int_index;
-	++int_index;
+	int_vars[var] = var_index;
+	++var_index;
 	++locals;
 	
 	storeIntVar(var, val);

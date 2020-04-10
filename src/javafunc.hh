@@ -67,11 +67,8 @@ private:
 	std::map<std::string, int> pool;
 	std::vector<FuncRef> refs;
 	
-	//Reference to object variables
+	//Variable control
 	std::map<std::string, int> obj_vars;
-	int obj_index = 1;
-	
-	//References to variables
 	std::map<std::string, int> int_vars;
-	int int_index = 1;
+	int var_index = 1;
 };
