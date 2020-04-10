@@ -37,6 +37,11 @@ int main() {
 	ref.type = "()V";
 	pool->useMethod(ref, true);
 	
+	ref.base_lib = "HelloWorld";
+	ref.name = "printNum";
+	ref.type = "()V";
+	pool->useMethod(ref, true);
+	
 	//Add our main function
 	pool->addAttribute("main");
 	pool->addAttribute("([Ljava/lang/String;)V");
@@ -45,9 +50,13 @@ int main() {
 	pool->addAttribute("sayHello");
 	pool->addAttribute("()V");
 	
+	pool->addAttribute("printNum");
+	
+	//Attributes
 	pool->addAttribute("Code");
 	pool->addAttribute("LineNumberTable");
 	
+//===================================================================	
 	//Add a function
 	auto func2 = new JavaFunc("sayHello", "()V");
 	func2->setPool(pool);
@@ -60,6 +69,19 @@ int main() {
 	func2->retVoid();
 	
 	writer.addFunc(func2);
+	
+	//Add another function
+	auto func3 = new JavaFunc("printNum", "()V");
+	func3->setPool(pool);
+	func3->setAttributes(JFuncAttr::Public);
+	func3->setAttributes(JFuncAttr::Static);
+	
+	func3->getStatic("out");
+	func3->loadInt(100);
+	func3->callFunc("println", "(I)V");
+	func3->retVoid();
+	
+	writer.addFunc(func3);
 	
 	//Create the main func
 	//We want to print a message and an integer
@@ -77,6 +99,7 @@ int main() {
 	func->callFunc("println", "(I)V");
 	
 	func->callStaticFunc("sayHello", "()V");
+	func->callStaticFunc("printNum", "()V");
 	func->retVoid();
 	
 	writer.addFunc(func);
