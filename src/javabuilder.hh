@@ -11,6 +11,7 @@ class JavaBuilder {
 public:
 	explicit JavaBuilder(std::string name);
 	explicit JavaBuilder(JavaClass *clazz);
+	void assemble(JavaClass *clazz);
 	
 	void useOutput();
 	void useLibrary(std::string str);
@@ -24,7 +25,6 @@ public:
 	JavaPool *jpool;
 protected:
 	void init(std::string name);
-	void assemble(JavaClass *clazz);
 	void buildMethod(JavaMethod *method, JavaFunc *target);
 private:
 	std::string class_name = "";

@@ -7,7 +7,23 @@ JavaBuilder::JavaBuilder(std::string name) {
 
 JavaBuilder::JavaBuilder(JavaClass *clazz) {
 	init(clazz->name);
-	assemble(clazz);
+}
+
+//An assembler function used when we are given an AST
+void JavaBuilder::assemble(JavaClass *clazz) {
+	for (auto str : clazz->strings) {
+		addString(str);
+	}
+
+	for (auto func : clazz->methods) {
+		if (func->name == "main") {
+			auto f = createMain();
+			buildMethod(func, f);
+			f->addSingle(JavaCode::RetVoid);
+		} else {
+			//TODO: Add interface for building functions
+		}
+	}
 }
 
 //Adds the common System.out.println libraries to the pool
@@ -104,21 +120,35 @@ void JavaBuilder::init(std::string name) {
 	jpool->addAttribute("([Ljava/lang/String;)V");
 }
 
-//An assembler function used when we are given an AST
-void JavaBuilder::assemble(JavaClass *clazz) {
-	for (auto func : clazz->methods) {
-		if (func->name == "main") {
-			auto f = createMain();
-			buildMethod(func, f);
-		} else {
-			//TODO: Add interface for building functions
-		}
-	}
-}
-
 //Builds a Java method
 void JavaBuilder::buildMethod(JavaMethod *method, JavaFunc *target) {
-	target->addSingle(JavaCode::RetVoid);
+	for (auto code : method->code) {
+		switch (code->type) {
+			//Static function call
+			case JCodeType::StaticFuncCall: {
+				auto fc = static_cast<JStaticFuncCall *>(code);
+				
+				if (fc->base != "")
+					target->getStatic(fc->base);
+					
+				//Load arguments
+				for (auto arg : fc->args) {
+					switch (arg->type) {
+						//Load a string
+						case JCodeType::String: {
+							auto str = static_cast<JString *>(arg);
+							target->loadStrConst(str->val);
+						} break;
+						
+						//TODO: Add the rest
+					}
+				}
+				
+				//Call the function
+				target->callFunc(fc->name, fc->signature, FuncType::Virtual);
+			} break;
+		}
+	}
 }
 
 

@@ -31,6 +31,26 @@ enum class JavaType {
 	String
 };
 
+//Represents the type of Java code (AST-specific)
+enum class JCodeType {
+	None,
+	
+	StaticFuncCall,
+	
+	String
+};
+
+//Represents a piece of Java Code
+class JCode {
+public:
+	explicit JCode() {}
+	explicit JCode(JCodeType type) {
+		this->type = type;
+	}
+	
+	JCodeType type = JCodeType::None;
+};
+
 //Represents a Java method
 class JavaMethod {
 public:
@@ -41,6 +61,8 @@ public:
 	
 	std::string name;
 	std::string signature = "()V";
+	
+	std::vector<JCode *> code;
 };
 
 //Represents the Java main method (convience class)
@@ -61,5 +83,46 @@ public:
 
 	std::string name;
 	std::vector<JavaMethod *> methods;
+	std::vector<std::string> strings;
+};
+
+//Represents a function class
+class JFuncCall : public JCode {
+public:
+	std::string name = "";
+	std::string signature = "()V";
+	std::vector<JCode *> args;
+};
+
+//Represents a static function call
+class JStaticFuncCall : public JFuncCall {
+public:
+	explicit JStaticFuncCall() {
+		type = JCodeType::StaticFuncCall;
+	}
+	
+	explicit JStaticFuncCall(std::string base, std::string name, std::string sig) {
+		this->base = base;
+		this->name = name;
+		this->signature = sig;
+		type = JCodeType::StaticFuncCall;
+	}
+	
+	std::string base;
+};
+
+//Represents a Java String
+class JString : public JCode {
+public:
+	explicit JString() {
+		type = JCodeType::String;
+	}
+	
+	explicit JString(std::string val) {
+		this->val = val;
+		type = JCodeType::String;
+	}
+	
+	std::string val;
 };
 
