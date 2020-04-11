@@ -26,6 +26,9 @@ public:
 protected:
 	void init(std::string name);
 	void buildMethod(JavaMethod *method, JavaFunc *target);
+	
+	//In the jfunccall file
+	void buildVirtualFC(JCode *code, JavaMethod *method, JavaFunc *target);
 private:
 	std::string class_name = "";
 };

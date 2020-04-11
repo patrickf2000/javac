@@ -9,6 +9,7 @@ set(LIB_SRC
 	src/javafunc.cpp
 	src/javapool.cpp
 	src/writer.cpp
+	src/builder/jfunccall.cpp
 )
 
 add_library(jc ${LIB_SRC})
