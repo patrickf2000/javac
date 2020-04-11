@@ -15,8 +15,9 @@ enum class JavaModifier {
 
 //Represents Java primitive data types
 // Note: Because we use String so much, I'm including it here
-enum class JavaType {
+enum class JDataType {
 	None,
+	Void,
 	
 	Byte,		//8-bit int
 	Short,		//16-bit int
@@ -37,6 +38,10 @@ enum class JCodeType {
 	
 	VirtualFuncCall,
 	
+	Var,
+	VarDec,
+	
+	Int,
 	String
 };
 
@@ -49,6 +54,7 @@ public:
 	}
 	
 	JCodeType type = JCodeType::None;
+	std::vector<JCode *> children;
 };
 
 //Represents a Java method
@@ -109,6 +115,46 @@ public:
 	}
 	
 	std::string base;
+};
+
+//Represents a variable
+class JVar : public JCode {
+public:
+	explicit JVar() {
+		type = JCodeType::Var;
+	}
+	
+	explicit JVar(std::string name, JDataType t) {
+		type = JCodeType::Var;
+		this->d_type = t;
+		this->name = name;
+	}
+	
+	std::string name = "";
+	JDataType d_type = JDataType::None;
+	JCode *val = new JCode;
+};
+
+//Represents a variable declaration
+class JVarDec : public JVar {
+public:
+	explicit JVarDec() { type = JCodeType::VarDec; }
+	explicit JVarDec(std::string name, JDataType t) {
+		type = JCodeType::VarDec;
+		this->d_type = t;
+		this->name = name;
+	}
+};
+
+//Represents an integer
+class JInt : public JCode {
+public:
+	explicit JInt(int i) {
+		type = JCodeType::Int;
+		val = i;
+	}
+	
+	int val = 0;
 };
 
 //Represents a Java String

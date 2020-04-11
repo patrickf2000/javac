@@ -128,6 +128,11 @@ void JavaBuilder::buildMethod(JavaMethod *method, JavaFunc *target) {
 			case JCodeType::VirtualFuncCall: {
 				buildVirtualFC(code, method, target);
 			} break;
+			
+			//Variable declaration
+			case JCodeType::VarDec: {
+				buildVarDec(code, target);
+			} break;
 		}
 	}
 }

@@ -10,6 +10,7 @@ set(LIB_SRC
 	src/javapool.cpp
 	src/writer.cpp
 	src/builder/jfunccall.cpp
+	src/builder/jvar.cpp
 )
 
 add_library(jc ${LIB_SRC})

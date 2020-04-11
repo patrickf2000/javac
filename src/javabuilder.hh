@@ -29,6 +29,10 @@ protected:
 	
 	//In the jfunccall file
 	void buildVirtualFC(JCode *code, JavaMethod *method, JavaFunc *target);
+	
+	//In the jvar file
+	void buildVarDec(JCode *code, JavaFunc *target);
+	void buildIntAssign(JVar *var, JavaFunc *target);
 private:
 	std::string class_name = "";
 };

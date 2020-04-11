@@ -15,6 +15,10 @@ JavaMain *buildMain() {
 	fc->args.push_back(new JString(str1));
 	method->code.push_back(fc);
 	
+	auto vd = new JVarDec("x", JDataType::Int);
+	vd->val = new JInt(7);
+	method->code.push_back(vd);
+	
 	return method;
 }
 
