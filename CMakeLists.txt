@@ -1,16 +1,16 @@
 cmake_minimum_required(VERSION 3.0.0)
 project(jc)
 
-include_directories(src)
+include_directories(libjava)
 
-set(LIB_SRC
-	src/javabuilder.cpp
-	src/javafile.cpp
-	src/javafunc.cpp
-	src/javapool.cpp
-	src/writer.cpp
-	src/builder/jfunccall.cpp
-	src/builder/jvar.cpp
+set(LIB_libjava
+	libjava/javabuilder.cpp
+	libjava/javafile.cpp
+	libjava/javafunc.cpp
+	libjava/javapool.cpp
+	libjava/writer.cpp
+	libjava/builder/jfunccall.cpp
+	libjava/builder/jvar.cpp
 )
 
 add_library(jc ${LIB_SRC})
