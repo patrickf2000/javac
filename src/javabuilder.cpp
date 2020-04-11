@@ -2,27 +2,12 @@
 
 //Sets everything up
 JavaBuilder::JavaBuilder(std::string name) {
-	class_name = name;
-	jfile = new JavaFile(name);
-	jpool = new JavaPool(name);
-	
-	//Reference to the constructor
-	Ref ref;
-	ref.base_lib = "java/lang/Object";
-	ref.base_name = class_name;
-	ref.name = "<init>";
-	ref.type = "()V";
-	jpool->useMethod(ref);
-	jpool->addAttribute("<init>");
-	jpool->addAttribute("()V");
-	
-	//Required attributes
-	jpool->addAttribute("Code");
-	jpool->addAttribute("LineNumberTable");
-	
-	//Reference to the main function
-	jpool->addAttribute("main");
-	jpool->addAttribute("([Ljava/lang/String;)V");
+	init(name);
+}
+
+JavaBuilder::JavaBuilder(JavaClass *clazz) {
+	init(clazz->name);
+	assemble(clazz);
 }
 
 //Adds the common System.out.println libraries to the pool
@@ -93,3 +78,47 @@ JavaFunc *JavaBuilder::createMain() {
 	jfile->addFunc(func);
 	return func;
 }
+
+//The init function used by the constructors
+void JavaBuilder::init(std::string name) {
+	class_name = name;
+	jfile = new JavaFile(name);
+	jpool = new JavaPool(name);
+	
+	//Reference to the constructor
+	Ref ref;
+	ref.base_lib = "java/lang/Object";
+	ref.base_name = class_name;
+	ref.name = "<init>";
+	ref.type = "()V";
+	jpool->useMethod(ref);
+	jpool->addAttribute("<init>");
+	jpool->addAttribute("()V");
+	
+	//Required attributes
+	jpool->addAttribute("Code");
+	jpool->addAttribute("LineNumberTable");
+	
+	//Reference to the main function
+	jpool->addAttribute("main");
+	jpool->addAttribute("([Ljava/lang/String;)V");
+}
+
+//An assembler function used when we are given an AST
+void JavaBuilder::assemble(JavaClass *clazz) {
+	for (auto func : clazz->methods) {
+		if (func->name == "main") {
+			auto f = createMain();
+			buildMethod(func, f);
+		} else {
+			//TODO: Add interface for building functions
+		}
+	}
+}
+
+//Builds a Java method
+void JavaBuilder::buildMethod(JavaMethod *method, JavaFunc *target) {
+	target->addSingle(JavaCode::RetVoid);
+}
+
+
