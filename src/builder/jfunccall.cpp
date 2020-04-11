@@ -18,6 +18,19 @@ void JavaBuilder::buildVirtualFC(JCode *code, JavaMethod *method, JavaFunc *targ
 				target->loadStrConst(str->val);
 			} break;
 			
+			//Load an integer
+			case JCodeType::Var: {
+				auto var = static_cast<JVar *>(arg);
+				
+				switch (var->d_type) {
+					case JDataType::Int: {
+						target->loadIntVar(var->name);
+					} break;
+					
+					//TODO: Add the rest
+				}
+			} break;
+			
 			//TODO: Add the rest
 		}
 	}

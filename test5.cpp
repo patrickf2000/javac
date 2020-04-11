@@ -6,6 +6,7 @@
 #include <javapool.hh>
 
 std::string str1 = "Hello World!";
+std::string str2 = "Your number: ";
 
 //Build the main method
 JavaMain *buildMain() {
@@ -19,14 +20,21 @@ JavaMain *buildMain() {
 	vd->val = new JInt(7);
 	method->code.push_back(vd);
 	
+	auto fc2 = new JVirtualFuncCall("out", "println", "(I)V");
+	fc2->args.push_back(new JVar("x", JDataType::Int));
+	method->code.push_back(fc2);
+	
 	return method;
 }
 
 //Build the class
 JavaClass *buildAst() {
 	auto clazz = new JavaClass("Test5");
-	clazz->strings.push_back(str1);
 	clazz->methods.push_back(buildMain());
+	
+	clazz->strings.push_back(str1);
+	clazz->strings.push_back(str2);
+	
 	return clazz;
 }
 
