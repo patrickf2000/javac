@@ -35,7 +35,7 @@ enum class JavaType {
 enum class JCodeType {
 	None,
 	
-	StaticFuncCall,
+	VirtualFuncCall,
 	
 	String
 };
@@ -95,17 +95,17 @@ public:
 };
 
 //Represents a static function call
-class JStaticFuncCall : public JFuncCall {
+class JVirtualFuncCall : public JFuncCall {
 public:
-	explicit JStaticFuncCall() {
-		type = JCodeType::StaticFuncCall;
+	explicit JVirtualFuncCall() {
+		type = JCodeType::VirtualFuncCall;
 	}
 	
-	explicit JStaticFuncCall(std::string base, std::string name, std::string sig) {
+	explicit JVirtualFuncCall(std::string base, std::string name, std::string sig) {
 		this->base = base;
 		this->name = name;
 		this->signature = sig;
-		type = JCodeType::StaticFuncCall;
+		type = JCodeType::VirtualFuncCall;
 	}
 	
 	std::string base;

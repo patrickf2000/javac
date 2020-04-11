@@ -124,9 +124,9 @@ void JavaBuilder::init(std::string name) {
 void JavaBuilder::buildMethod(JavaMethod *method, JavaFunc *target) {
 	for (auto code : method->code) {
 		switch (code->type) {
-			//Static function call
-			case JCodeType::StaticFuncCall: {
-				auto fc = static_cast<JStaticFuncCall *>(code);
+			//Virtual function call
+			case JCodeType::VirtualFuncCall: {
+				auto fc = static_cast<JVirtualFuncCall *>(code);
 				
 				if (fc->base != "")
 					target->getStatic(fc->base);

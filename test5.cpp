@@ -11,7 +11,7 @@ std::string str1 = "Hello World!";
 JavaMain *buildMain() {
 	auto method = new JavaMain;
 	
-	auto fc = new JStaticFuncCall("out", "println", "(Ljava/lang/String;)V");
+	auto fc = new JVirtualFuncCall("out", "println", "(Ljava/lang/String;)V");
 	fc->args.push_back(new JString(str1));
 	method->code.push_back(fc);
 	
