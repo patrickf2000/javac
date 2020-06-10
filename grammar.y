@@ -29,6 +29,8 @@ void yyerror(const char *s);
 %token FUNC
 %token PRINTLN
 %token END
+%token INT
+%token ASSIGN
 %token <stype> ID
 %token <itype> INTEGER 
 %token <ftype> FLOAT
@@ -40,6 +42,8 @@ all_statements: statement all_statements | /* empty */;
 statement:
       func_dec
     | println
+    | int_dec
+    | var_assign
     | end
 	;
 	
@@ -56,11 +60,23 @@ println:
                           current->callFunc("println", "(Ljava/lang/String;)V", FuncType::Virtual);
                         }
                         
-    | PRINTLN INTEGER   {
-                          current->getStatic("out");
+    | PRINTLN INTEGER   { current->getStatic("out");
                           current->loadInt($2);
                           current->callFunc("println", "(I)V", FuncType::Virtual);
                         }
+                        
+    | PRINTLN ID        { current->getStatic("out");
+                          current->loadIntVar($2);
+                          current->callFunc("println", "(I)V", FuncType::Virtual);
+                        }
+    ;
+    
+int_dec:
+    INT ID ASSIGN INTEGER     { current->createIntVar($2, $4); }
+    ;
+    
+var_assign:
+    ID ASSIGN INTEGER         { current->storeIntVar($1, $3); }
     ;
     
 end:
