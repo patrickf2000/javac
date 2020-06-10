@@ -95,6 +95,10 @@ JavaFunc *JavaBuilder::createMain() {
 	return func;
 }
 
+void JavaBuilder::updatePool(JavaFunc *f) {
+    f->setPool(jpool);
+}
+
 //The init function used by the constructors
 void JavaBuilder::init(std::string name) {
 	class_name = name;

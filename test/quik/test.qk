@@ -1,0 +1,5 @@
+func main
+    println "Hello!"
+    println "Printing a number:"
+    println 33
+end

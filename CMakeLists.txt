@@ -1,7 +1,11 @@
 cmake_minimum_required(VERSION 3.0.0)
 project(jc)
 
+find_package(BISON)
+find_package(FLEX)
+
 include_directories(libjava)
+include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 set(LIB_libjava
 	libjava/javabuilder.cpp
@@ -13,16 +17,21 @@ set(LIB_libjava
 	libjava/builder/jvar.cpp
 )
 
-add_library(jc ${LIB_SRC})
+add_library(jc ${LIB_libjava})
 
-add_executable(test1 test1.cpp)
-add_executable(test2 test2.cpp)
-add_executable(test3 test3.cpp)
-add_executable(test4 test4.cpp)
-add_executable(test5 test5.cpp)
+BISON_TARGET(parser grammar.y ${CMAKE_CURRENT_BINARY_DIR}/parser.yy.cpp)
+FLEX_TARGET(scanner scanner.ll ${CMAKE_CURRENT_BINARY_DIR}/parser.lex.cpp)
+ADD_FLEX_BISON_DEPENDENCY(scanner parser)
 
-target_link_libraries(test1 jc)
-target_link_libraries(test2 jc)
-target_link_libraries(test3 jc)
-target_link_libraries(test4 jc)
-target_link_libraries(test5 jc)
+set(PARSER_SRC
+	${BISON_parser_OUTPUTS}
+	${FLEX_scanner_OUTPUTS}
+	main.cpp
+)
+
+add_executable(jcp ${PARSER_SRC})
+
+target_link_libraries(jcp jc)
+
+
+

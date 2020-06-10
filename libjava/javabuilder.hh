@@ -20,6 +20,7 @@ public:
 	
 	JavaFunc *createConstructor(bool init=false);
 	JavaFunc *createMain();
+	void updatePool(JavaFunc *f);
 	
 	JavaFile *jfile;
 	JavaPool *jpool;
