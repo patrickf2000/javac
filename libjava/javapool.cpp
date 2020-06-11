@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string.h>
 
 #include "javapool.hh"
 
@@ -31,11 +32,15 @@ void JavaPool::addString(std::string str) {
 }
 
 //Adds a double to the constant pool
+//TODO: This needs some help
 void JavaPool::addDouble(double d) {
     code.push_back((unsigned char)OpType::Double);
+        
+    unsigned char buf[8] = {0};
+    memcpy(buf, &d, 8);
     
-    for (int i = 0; i<8; i++)
-        code.push_back(0x00);
+    for (int i = 7; i>=0; i--)
+        code.push_back(buf[i]);
         
     std::string dStr = std::to_string(d);
     pool[dStr] = pos;
