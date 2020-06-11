@@ -23,6 +23,7 @@ enum class AstType {
     
     //Data types
     Int,
+    Float,
     String,
     Id
 };
@@ -105,6 +106,17 @@ public:
     }
     
     int val = 0;
+};
+
+//Float variables
+class AstFloat : public AstNode {
+public:
+    explicit AstFloat(float i) {
+        type = AstType::Float;
+        val = i;
+    }
+    
+    float val = 0;
 };
 
 //Strings

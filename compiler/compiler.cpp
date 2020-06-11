@@ -31,6 +31,17 @@ void buildChildren(AstNode *parent) {
                         func->callFunc("println", "(Ljava/lang/String;)V", FuncType::Virtual);
                     } break;
                     
+                    //Floats
+                    case AstType::Float: {
+                        auto flt = static_cast<AstFloat *>(arg);
+                        builder->addDouble(flt->val);
+                        builder->updatePool(func);
+                        
+                        func->getStatic("out");
+                        func->loadDoubleConst(flt->val);
+                        func->callFunc("println", "(D)V", FuncType::Virtual);
+                    } break;
+                    
                     //Integers
                     case AstType::Int: {
                         auto i = static_cast<AstInt *>(arg);

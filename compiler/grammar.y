@@ -67,7 +67,11 @@ println:
                           currentFunc->children.push_back(println);
                         }
                         
-    | PRINTLN FLOATL    { }
+    | PRINTLN FLOATL    { auto i = new AstFloat($2);
+                          auto println = new AstPrintln;
+                          println->children.push_back(i);
+                          currentFunc->children.push_back(println);
+                        }
                         
     | PRINTLN ID        { auto id = new AstId($2);
                           auto println = new AstPrintln;
