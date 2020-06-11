@@ -40,6 +40,21 @@ void buildChildren(AstNode *parent) {
                         func->callFunc("println", "(I)V", FuncType::Virtual);
                     } break;
                     
+                    //IDs
+                    case AstType::Id: {
+                        auto id = static_cast<AstId *>(arg);
+                        auto dType = vars[id->name];
+                        
+                        func->getStatic("out");
+                        
+                        switch (dType) {
+                            case DataType::Int: {
+                                func->loadIntVar(id->name);
+                                func->callFunc("println", "(I)V", FuncType::Virtual);
+                            } break;
+                        }
+                    } break;
+                    
                     //TODO: Add rest
                 }
             } break;

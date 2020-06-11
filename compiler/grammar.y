@@ -68,7 +68,11 @@ println:
                         
     | PRINTLN FLOATL    { }
                         
-    | PRINTLN ID        { }
+    | PRINTLN ID        { auto id = new AstId($2);
+                          auto println = new AstPrintln;
+                          println->children.push_back(id);
+                          currentFunc->children.push_back(println);
+                        }
     ;
     
 int_dec:

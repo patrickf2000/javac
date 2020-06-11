@@ -17,7 +17,8 @@ enum class AstType {
     
     //Data types
     Int,
-    String
+    String,
+    Id
 };
 
 enum class DataType {
@@ -104,5 +105,16 @@ public:
     }
     
     std::string val = "";
+};
+
+//ID-> Variables
+class AstId : public AstNode {
+public:
+    explicit AstId(std::string name) {
+        type = AstType::Id;
+        this->name = name;
+    }
+    
+    std::string name = "";
 };
 
