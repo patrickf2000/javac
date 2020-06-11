@@ -7,6 +7,8 @@ find_package(FLEX)
 include_directories(libjava compiler)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
+add_compile_options(-g)
+
 set(LIB_libjava
 	libjava/javabuilder.cpp
 	libjava/javafile.cpp

@@ -13,6 +13,26 @@ JavaFunc *func;
 void buildChildren(AstNode *parent) {
     for (auto child : parent->children) {
         switch (child->type) {
+            //Println
+            case AstType::Println: {
+                auto arg = child->children[0];
+                
+                switch (arg->type) {
+                    //Strings
+                    case AstType::String: {
+                        auto str = static_cast<AstString *>(arg);
+                        builder->addString(str->val);
+                        builder->updatePool(func);
+                        
+                        func->getStatic("out");
+                        func->loadStrConst(str->val);
+                        func->callFunc("println", "(Ljava/lang/String;)V", FuncType::Virtual);
+                    } break;
+                    
+                    //TODO: Add rest
+                }
+            } break;
+        
             //Return
             case AstType::End: func->addSingle(JavaCode::RetVoid); break;
             
@@ -23,7 +43,7 @@ void buildChildren(AstNode *parent) {
 
 //The main AST translator
 void translateAST(AstNode *tree) {
-    auto *builder = new JavaBuilder("Test1");
+    builder = new JavaBuilder("Test1");
     builder->useOutput();
     
     for (auto child : tree->children) {
@@ -45,3 +65,4 @@ void translateAST(AstNode *tree) {
     
     builder->write();
 }
+

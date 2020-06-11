@@ -53,7 +53,12 @@ func_dec:
     ;
     
 println:
-    PRINTLN STRING      { }
+    PRINTLN STRING      { auto val = getString($2);
+                          auto str = new AstString(val);
+                          auto println = new AstPrintln;
+                          println->children.push_back(str);
+                          currentFunc->children.push_back(println); 
+                        }
                         
     | PRINTLN INTEGER   { }
                         

@@ -33,6 +33,14 @@ public:
     std::string name = "";
 };
 
+//Println
+class AstPrintln : public AstNode {
+public:
+    AstPrintln() {
+        type = AstType::Println;
+    }
+};
+
 //End of a function
 class AstEnd : public AstNode {
 public:
@@ -40,3 +48,15 @@ public:
         type = AstType::End;
     }
 };
+
+//Strings
+class AstString : public AstNode {
+public:
+    explicit AstString(std::string s) {
+        type = AstType::String;
+        val = s;
+    }
+    
+    std::string val = "";
+};
+
