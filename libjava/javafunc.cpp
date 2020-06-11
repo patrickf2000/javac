@@ -184,24 +184,40 @@ void JavaFunc::createIntVar(std::string var, int val) {
 //Double functions
 //=================================================
 
-//Load double value to stack
-void JavaFunc::loadDouble(double val) {
-
-}
-
 //Load double variable to stack
 void JavaFunc::loadDoubleVar(std::string var) {
-
+    int pos = dbl_vars[var];
+	
+	switch (pos) {
+		case 1: code.push_back(0x27); break;
+		case 2: code.push_back(0x28); break;
+		case 3: code.push_back(0x29); break;
+		default: {
+			code.push_back(0x18);
+			code.push_back((unsigned char)pos);
+		}
+	}
 }
 
 //Store value in stack to double variable
 void JavaFunc::storeDoubleVar(std::string var) {
-
+    int pos = dbl_vars[var];
+	
+	switch (pos) {
+		case 1: code.push_back(0x48); break;
+		case 2: code.push_back(0x49); break;
+		case 3: code.push_back(0x4a); break;
+		default: {
+			code.push_back(0x39);
+			code.push_back((unsigned char)pos);
+		}
+	}
 }
 
 //Store double value to variable
 void JavaFunc::storeDoubleVar(std::string var, double val) {
-
+    loadDoubleConst(val);
+    storeDoubleVar(var);
 }
 
 //Create a double variable
@@ -209,6 +225,8 @@ void JavaFunc::createDoubleVar(std::string var, double val) {
     dbl_vars[var] = var_index;
     ++var_index;
     ++locals;
+    
+    storeDoubleVar(var, val);
 }
 
 

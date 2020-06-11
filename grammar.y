@@ -55,6 +55,7 @@ statement:
       func_dec
     | println
     | int_dec
+    | double_dec
     | var_assign
     | end
 	;
@@ -85,8 +86,15 @@ println:
                         }
                         
     | PRINTLN ID        { current->getStatic("out");
-                          current->loadIntVar($2);
-                          current->callFunc("println", "(I)V", FuncType::Virtual);
+                          DataType dt = vars[$2];
+                          
+                          if (dt == DataType::Int) {
+                              current->loadIntVar($2);
+                              current->callFunc("println", "(I)V", FuncType::Virtual);
+                          } else if (dt == DataType::Double) {
+                              current->loadDoubleVar($2);
+                              current->callFunc("println", "(D)V", FuncType::Virtual);
+                          }
                         }
     ;
     
@@ -94,9 +102,13 @@ int_dec:
     INT ID '=' INTEGER          { vars[$2] = DataType::Int;
                                   current->createIntVar($2, $4);
                                 }
-    | DOUBLE ID '=' FLOATL      { vars[$2] = DataType::Double;
+    ;
+    
+double_dec:
+    DOUBLE ID '=' FLOATL        { vars[$2] = DataType::Double;
                                   builder->addDouble($4);
                                   builder->updatePool(current);
+                                  current->createDoubleVar($2, $4);
                                 }
     ;
     
