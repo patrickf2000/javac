@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cstdlib>
+#include <map>
 
 #include <javabuilder.hh>
 #include <javafile.hh>
@@ -9,6 +10,7 @@
 
 JavaBuilder *builder;
 JavaFunc *func;
+std::map<std::string, DataType> vars;
 
 void buildChildren(AstNode *parent) {
     for (auto child : parent->children) {
@@ -36,6 +38,43 @@ void buildChildren(AstNode *parent) {
                         func->getStatic("out");
                         func->loadInt(i->val);
                         func->callFunc("println", "(I)V", FuncType::Virtual);
+                    } break;
+                    
+                    //TODO: Add rest
+                }
+            } break;
+            
+            //Variable declaration
+            case AstType::VarDec: {
+                auto vd = static_cast<AstVarDec *>(child);
+                vars[vd->name] = vd->dType;
+                
+                switch (vd->dType) {
+                    case DataType::Int: {
+                        func->createIntVar(vd->name, 0);
+                    } break;
+                    
+                    //TODO: Add rest
+                }
+            } break;
+            
+            //Variable assignment
+            case AstType::VarAssign: {
+                auto va = static_cast<AstVarAssign *>(child);
+                auto var = vars[va->name];
+                
+                switch (var) {
+                    //Integer variables
+                    case DataType::Int: {
+                        for (auto arg : va->children) {
+                            switch (arg->type) {
+                                //Integers
+                                case AstType::Int: {
+                                    auto i = static_cast<AstInt *>(arg);
+                                    func->storeIntVar(va->name, i->val);
+                                } break;
+                            }
+                        }
                     } break;
                     
                     //TODO: Add rest

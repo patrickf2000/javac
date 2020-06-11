@@ -72,7 +72,14 @@ println:
     ;
     
 int_dec:
-    INT ID '=' INTEGER          { }
+    INT ID '=' INTEGER          { auto vd = new AstVarDec($2, DataType::Int);
+                                  currentFunc->children.push_back(vd);
+                                  
+                                  auto va = new AstVarAssign($2);
+                                  auto i = new AstInt($4);
+                                  va->children.push_back(i);
+                                  currentFunc->children.push_back(va); 
+                                }
     ;
     
 double_dec:

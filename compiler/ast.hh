@@ -11,9 +11,19 @@ enum class AstType {
     Println,
     End,
     
+    //Variable stuff
+    VarDec,
+    VarAssign,
+    
     //Data types
     Int,
     String
+};
+
+enum class DataType {
+    None,
+    Int,
+    Double
 };
 
 // Base Node
@@ -48,6 +58,30 @@ public:
     AstEnd() {
         type = AstType::End;
     }
+};
+
+//Variable declarations
+class AstVarDec : public AstNode {
+public:
+    explicit AstVarDec(std::string name, DataType t) {
+        type = AstType::VarDec;
+        dType = t;
+        this->name = name;
+    }
+    
+    DataType dType = DataType::None;
+    std::string name = "";
+};
+
+//Variable assignments
+class AstVarAssign : public AstNode {
+public:
+    explicit AstVarAssign(std::string name) {
+        type = AstType::VarAssign;
+        this->name = name;
+    }
+    
+    std::string name = "";
 };
 
 //Integers
