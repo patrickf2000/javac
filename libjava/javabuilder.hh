@@ -16,6 +16,7 @@ public:
 	void useOutput();
 	void useLibrary(std::string str);
 	void addString(std::string str);
+	void addDouble(double d);
 	void write();
 	
 	JavaFunc *createConstructor(bool init=false);

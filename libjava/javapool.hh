@@ -19,6 +19,7 @@ public:
 	
 	void useLibrary(std::string lib);
 	void addString(std::string str);
+	void addDouble(double d);
 	void addStaticRef(Ref ref);
 	void useMethod(Ref ref, bool internal=false);
 	void addConstructor();

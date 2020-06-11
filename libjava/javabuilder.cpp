@@ -48,6 +48,10 @@ void JavaBuilder::useOutput() {
 	//Use println to print ints
 	ref.type = "(I)V";
 	jpool->useMethod(ref);
+	
+	//Use println to print floats
+	ref.type = "(D)V";
+	jpool->useMethod(ref);
 }
 
 //Adds a library to the constant pool and enables its use
@@ -58,6 +62,11 @@ void JavaBuilder::useLibrary(std::string str) {
 //Adds a string to the constant pool and enables its use
 void JavaBuilder::addString(std::string str) {
 	jpool->addString(str);
+}
+
+//Adds a double to the constant pool and enables its use
+void JavaBuilder::addDouble(double d) {
+    jpool->addDouble(d);
 }
 
 //Writes everything to a class file

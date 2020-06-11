@@ -68,10 +68,11 @@ println:
                           current->callFunc("println", "(I)V", FuncType::Virtual);
                         }
                         
-    | PRINTLN FLOATL    { printf("FLOAT: %f\n", $2);
+    | PRINTLN FLOATL    { builder->addDouble($2);
+                          builder->updatePool(current);
                           current->getStatic("out");
-                          current->loadInt(0);
-                          current->callFunc("println", "(I)V", FuncType::Virtual);
+                          current->loadDoubleConst($2);
+                          current->callFunc("println", "(D)V", FuncType::Virtual);
                         }
                         
     | PRINTLN ID        { current->getStatic("out");

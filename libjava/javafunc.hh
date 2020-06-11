@@ -41,6 +41,7 @@ public:
 	//Functions to add code
 	void getStatic(std::string name);
 	void loadStrConst(std::string name);
+	void loadDoubleConst(double d);
 	void callFunc(std::string name, std::string type, FuncType ftype);
 	void addSingle(JavaCode c);
 	

@@ -30,6 +30,18 @@ void JavaPool::addString(std::string str) {
 	pos += 2;
 }
 
+//Adds a double to the constant pool
+void JavaPool::addDouble(double d) {
+    code.push_back((unsigned char)OpType::Double);
+    
+    for (int i = 0; i<8; i++)
+        code.push_back(0x00);
+        
+    std::string dStr = std::to_string(d);
+    pool[dStr] = pos;
+    pos += 2;
+}
+
 //Adds a static reference
 void JavaPool::addStaticRef(Ref ref) {
 	code.push_back((unsigned char)OpType::FieldRef);

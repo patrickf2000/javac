@@ -41,6 +41,16 @@ void JavaFunc::loadStrConst(std::string name) {
 	code.push_back((unsigned char)loco);
 }
 
+//Load a double to the stack
+void JavaFunc::loadDoubleConst(double d) {
+    std::string dStr = std::to_string(d);
+    int loco = pool[dStr];
+    
+    code.push_back(0x14);
+    code.push_back(0x00);
+    code.push_back((unsigned char)loco);
+}
+
 //Invoke a function
 void JavaFunc::callFunc(std::string name, std::string type, FuncType ftype) {
 	short loco = 0;
