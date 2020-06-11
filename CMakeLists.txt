@@ -19,14 +19,14 @@ set(LIB_libjava
 
 add_library(jc ${LIB_libjava})
 
-BISON_TARGET(parser grammar.y ${CMAKE_CURRENT_BINARY_DIR}/parser.yy.cpp)
-FLEX_TARGET(scanner scanner.ll ${CMAKE_CURRENT_BINARY_DIR}/parser.lex.cpp)
+BISON_TARGET(parser compiler/grammar.y ${CMAKE_CURRENT_BINARY_DIR}/parser.yy.cpp)
+FLEX_TARGET(scanner compiler/scanner.l ${CMAKE_CURRENT_BINARY_DIR}/parser.lex.cpp)
 ADD_FLEX_BISON_DEPENDENCY(scanner parser)
 
 set(PARSER_SRC
 	${BISON_parser_OUTPUTS}
 	${FLEX_scanner_OUTPUTS}
-	main.cpp
+	compiler/main.cpp
 )
 
 add_executable(jcp ${PARSER_SRC})
