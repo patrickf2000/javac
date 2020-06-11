@@ -181,5 +181,35 @@ void JavaFunc::createIntVar(std::string var, int val) {
 	storeIntVar(var, val);
 }
 
+//Double functions
+//=================================================
+
+//Load double value to stack
+void JavaFunc::loadDouble(double val) {
+
+}
+
+//Load double variable to stack
+void JavaFunc::loadDoubleVar(std::string var) {
+
+}
+
+//Store value in stack to double variable
+void JavaFunc::storeDoubleVar(std::string var) {
+
+}
+
+//Store double value to variable
+void JavaFunc::storeDoubleVar(std::string var, double val) {
+
+}
+
+//Create a double variable
+void JavaFunc::createDoubleVar(std::string var, double val) {
+    dbl_vars[var] = var_index;
+    ++var_index;
+    ++locals;
+}
+
 
 

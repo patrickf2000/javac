@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <string>
+#include <map>
 
 #include <javabuilder.hh>
 #include <javafile.hh>
@@ -18,6 +19,15 @@ std::string getString(char *in);
 
 int yylex();
 void yyerror(const char *s);
+
+//Needed for variable control
+enum class DataType {
+    None,
+    Int,
+    Double
+};
+
+std::map<std::string, DataType> vars;
 %}
 
 %union {
@@ -29,8 +39,7 @@ void yyerror(const char *s);
 %token FUNC
 %token PRINTLN
 %token END
-%token INT
-%token FLOAT
+%token INT FLOAT DOUBLE
 %token <stype> ID
 %token <itype> INTEGER 
 %token <ftype> FLOATL
@@ -82,7 +91,13 @@ println:
     ;
     
 int_dec:
-    INT ID '=' INTEGER     { current->createIntVar($2, $4); }
+    INT ID '=' INTEGER          { vars[$2] = DataType::Int;
+                                  current->createIntVar($2, $4);
+                                }
+    | DOUBLE ID '=' FLOATL      { vars[$2] = DataType::Double;
+                                  builder->addDouble($4);
+                                  builder->updatePool(current);
+                                }
     ;
     
 var_assign:

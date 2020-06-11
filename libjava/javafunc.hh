@@ -57,6 +57,13 @@ public:
 	void storeIntVar(std::string var, int val);
 	void createIntVar(std::string var, int val);
 	
+	//Double functions
+	void loadDouble(double val);
+	void loadDoubleVar(std::string var);
+	void storeDoubleVar(std::string var);
+	void storeDoubleVar(std::string var, double val);
+	void createDoubleVar(std::string var, double val);
+	
 	//The code section
 	std::vector<unsigned char> code;
 	int locals = 2;
@@ -73,5 +80,6 @@ private:
 	//Variable control
 	std::map<std::string, int> obj_vars;
 	std::map<std::string, int> int_vars;
+	std::map<std::string, int> dbl_vars;
 	int var_index = 1;
 };

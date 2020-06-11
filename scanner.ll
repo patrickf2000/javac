@@ -12,6 +12,7 @@ println                     { return PRINTLN; }
 end                         { return END; }
 int                         { return INT; }
 float                       { return FLOAT; }
+double                      { return DOUBLE; }
 "+"                         { return '+'; }
 "-"                         { return '-'; }
 "*"                         { return '*'; }
