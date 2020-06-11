@@ -86,10 +86,24 @@ void buildChildren(AstNode *parent) {
                                 //Integers
                                 case AstType::Int: {
                                     auto i = static_cast<AstInt *>(arg);
-                                    func->storeIntVar(va->name, i->val);
+                                    func->loadInt(i->val);
                                 } break;
+                                
+                                //Variables
+                                case AstType::Id: {
+                                    auto id = static_cast<AstId *>(arg);
+                                    func->loadIntVar(id->name);
+                                } break;
+                                
+                                //Operators
+                                case AstType::Add: func->addSingle(JavaCode::IAdd); break;
+                                case AstType::Sub: func->addSingle(JavaCode::ISub); break;
+                                case AstType::Mul: func->addSingle(JavaCode::IMul); break;
+                                case AstType::Div: func->addSingle(JavaCode::IDiv); break;
                             }
                         }
+                        
+                        func->storeIntVar(va->name);
                     } break;
                     
                     //TODO: Add rest

@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <string>
-#include <map>
+#include <vector>
 
 #include <ast.hh>
 
@@ -16,6 +16,7 @@ void yyerror(const char *s);
 
 AstNode *tree;
 AstFuncDec *currentFunc;
+std::vector<AstNode *> children;
 %}
 
 %union {
@@ -91,7 +92,11 @@ double_dec:
     ;
     
 var_assign:
-      ID '=' math_expr      { }
+      ID '=' math_expr      { auto va = new AstVarAssign($1);
+                              va->children = children;
+                              children.clear();
+                              currentFunc->children.push_back(va);
+                            }
     | ID '=' INTEGER        { auto va = new AstVarAssign($1);
                               auto i = new AstInt($3);
                               va->children.push_back(i);
@@ -101,20 +106,20 @@ var_assign:
     ;
     
 math_expr:
-      math_expr '+' ld_expr   { }
-    | math_expr '-' ld_expr   { }
-    | math_expr '*' ld_expr   { }
-    | math_expr '/' ld_expr   { }
-    | ld_expr '+' ld_expr     { }
-    | ld_expr '-' ld_expr     { }
-    | ld_expr '*' ld_expr     { }
-    | ld_expr '/' ld_expr     { }
+      math_expr '+' ld_expr   { children.push_back(new AstNode(AstType::Add)); }
+    | math_expr '-' ld_expr   { children.push_back(new AstNode(AstType::Sub)); }
+    | math_expr '*' ld_expr   { children.push_back(new AstNode(AstType::Mul)); }
+    | math_expr '/' ld_expr   { children.push_back(new AstNode(AstType::Div)); }
+    | ld_expr '+' ld_expr     { children.push_back(new AstNode(AstType::Add)); }
+    | ld_expr '-' ld_expr     { children.push_back(new AstNode(AstType::Sub)); }
+    | ld_expr '*' ld_expr     { children.push_back(new AstNode(AstType::Mul)); }
+    | ld_expr '/' ld_expr     { children.push_back(new AstNode(AstType::Div)); }
     ;
     
 ld_expr:
-      INTEGER       { }
+      INTEGER       { children.push_back(new AstInt($1)); }
     | FLOATL        { }
-    | ID            { }
+    | ID            { children.push_back(new AstId($1)); }
     ;
     
 end:

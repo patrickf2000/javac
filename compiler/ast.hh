@@ -15,6 +15,12 @@ enum class AstType {
     VarDec,
     VarAssign,
     
+    //Operators
+    Add,
+    Sub,
+    Mul,
+    Div,
+    
     //Data types
     Int,
     String,
@@ -30,6 +36,11 @@ enum class DataType {
 // Base Node
 class AstNode {
 public:
+    explicit AstNode() { }
+    explicit AstNode(AstType t) {
+        type = t;
+    }
+    
     AstType type = AstType::None;
     std::vector<AstNode *> children;
 };
