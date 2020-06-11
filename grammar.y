@@ -45,7 +45,7 @@ std::map<std::string, DataType> vars;
 %token <ftype> FLOATL
 %token <stype> STRING
 
-%left '+' '-' '*' '/'
+%token '+' '-' '*' '/'
 %token '='
 
 %%
@@ -115,6 +115,9 @@ double_dec:
 var_assign:
       ID '=' math_expr      { current->storeIntVar($1); }
     | ID '=' INTEGER        { current->storeIntVar($1, $3); }
+    | ID '=' FLOATL         { builder->addDouble($3);
+                              builder->updatePool(current);
+                              current->storeDoubleVar($1, $3); }
     ;
     
 math_expr:
