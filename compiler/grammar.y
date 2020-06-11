@@ -60,7 +60,11 @@ println:
                           currentFunc->children.push_back(println); 
                         }
                         
-    | PRINTLN INTEGER   { }
+    | PRINTLN INTEGER   { auto i = new AstInt($2);
+                          auto println = new AstPrintln;
+                          println->children.push_back(i);
+                          currentFunc->children.push_back(println);
+                        }
                         
     | PRINTLN FLOATL    { }
                         

@@ -12,6 +12,7 @@ enum class AstType {
     End,
     
     //Data types
+    Int,
     String
 };
 
@@ -47,6 +48,17 @@ public:
     AstEnd() {
         type = AstType::End;
     }
+};
+
+//Integers
+class AstInt : public AstNode {
+public:
+    explicit AstInt(int i) {
+        type = AstType::Int;
+        val = i;
+    }
+    
+    int val = 0;
 };
 
 //Strings

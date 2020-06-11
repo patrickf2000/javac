@@ -29,6 +29,15 @@ void buildChildren(AstNode *parent) {
                         func->callFunc("println", "(Ljava/lang/String;)V", FuncType::Virtual);
                     } break;
                     
+                    //Integers
+                    case AstType::Int: {
+                        auto i = static_cast<AstInt *>(arg);
+                        
+                        func->getStatic("out");
+                        func->loadInt(i->val);
+                        func->callFunc("println", "(I)V", FuncType::Virtual);
+                    } break;
+                    
                     //TODO: Add rest
                 }
             } break;
