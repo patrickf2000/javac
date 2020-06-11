@@ -30,9 +30,10 @@ void yyerror(const char *s);
 %token PRINTLN
 %token END
 %token INT
+%token FLOAT
 %token <stype> ID
 %token <itype> INTEGER 
-%token <ftype> FLOAT
+%token <ftype> FLOATL
 %token <stype> STRING
 
 %left '+' '-' '*' '/'
@@ -64,6 +65,12 @@ println:
                         
     | PRINTLN INTEGER   { current->getStatic("out");
                           current->loadInt($2);
+                          current->callFunc("println", "(I)V", FuncType::Virtual);
+                        }
+                        
+    | PRINTLN FLOATL    { printf("FLOAT: %f\n", $2);
+                          current->getStatic("out");
+                          current->loadInt(0);
                           current->callFunc("println", "(I)V", FuncType::Virtual);
                         }
                         

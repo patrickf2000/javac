@@ -11,6 +11,7 @@ func                        { return FUNC; }
 println                     { return PRINTLN; }
 end                         { return END; }
 int                         { return INT; }
+float                       { return FLOAT; }
 "+"                         { return '+'; }
 "-"                         { return '-'; }
 "*"                         { return '*'; }
@@ -20,7 +21,7 @@ int                         { return INT; }
 [ \t]                       {}
 \n                          {}
 [-]?[0-9]+					{yylval.itype = std::stoi(yytext); return INTEGER;}
-[-]?([0-9]*[.])?[0-9]+		{yylval.ftype = std::stof(yytext); return FLOAT;}
+[-]?([0-9]*[.])?[0-9]+		{yylval.ftype = std::stof(yytext); return FLOATL;}
 [A-Za-z]*					{yylval.stype = strdup(yytext); return ID;}
 %%
 
