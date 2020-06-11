@@ -78,27 +78,21 @@ int_dec:
     ;
     
 var_assign:
-      ID '=' math_expr                  { current->storeIntVar($1); }
-    | ID '=' INTEGER                    { current->storeIntVar($1, $3); }
+      ID '=' math_expr      { current->storeIntVar($1); }
+    | ID '=' INTEGER        { current->storeIntVar($1, $3); }
     ;
     
 math_expr:
-    INTEGER '+' INTEGER         { current->loadInt($1);
-                                  current->loadInt($3);
-                                  current->addSingle(JavaCode::IAdd);
-                                }
-    | ID '+' INTEGER            { current->loadIntVar($1);
-                                  current->loadInt($3);
-                                  current->addSingle(JavaCode::IAdd);
-                                }
-    | INTEGER '+' ID            { current->loadInt($1);
-                                  current->loadIntVar($3);
-                                  current->addSingle(JavaCode::IAdd);
-                                }
+    ld_expr '+' ld_expr     { current->addSingle(JavaCode::IAdd); }
+    ;
+    
+ld_expr:
+      INTEGER       { current->loadInt($1); }
+    | ID            { current->loadIntVar($1); }
     ;
     
 end:
-    END                 { current->addSingle(JavaCode::RetVoid); }
+    END             { current->addSingle(JavaCode::RetVoid); }
     ;
 
 %%
