@@ -35,7 +35,7 @@ void yyerror(const char *s);
 %token <ftype> FLOAT
 %token <stype> STRING
 
-%token '+' '-' '*' '/'
+%left '+' '-' '*' '/'
 %token '='
 
 %%
@@ -83,7 +83,11 @@ var_assign:
     ;
     
 math_expr:
-      ld_expr '+' ld_expr     { current->addSingle(JavaCode::IAdd); }
+      math_expr '+' ld_expr   { current->addSingle(JavaCode::IAdd); }
+    | math_expr '-' ld_expr   { current->addSingle(JavaCode::ISub); }
+    | math_expr '*' ld_expr   { current->addSingle(JavaCode::IMul); }
+    | math_expr '/' ld_expr   { current->addSingle(JavaCode::IDiv); }
+    | ld_expr '+' ld_expr     { current->addSingle(JavaCode::IAdd); }
     | ld_expr '-' ld_expr     { current->addSingle(JavaCode::ISub); }
     | ld_expr '*' ld_expr     { current->addSingle(JavaCode::IMul); }
     | ld_expr '/' ld_expr     { current->addSingle(JavaCode::IDiv); }

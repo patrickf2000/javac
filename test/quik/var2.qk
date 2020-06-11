@@ -1,0 +1,17 @@
+func main
+    int x = 20
+    int y = 4
+    int answer = 0
+    
+    answer = x + y
+    println answer
+    
+    answer = x - y
+    println answer
+    
+    answer = x * y
+    println answer
+    
+    answer = x / y
+    println answer
+end
