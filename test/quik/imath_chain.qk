@@ -1,0 +1,8 @@
+func main
+    int x = 20
+    int y = 4
+    int answer = 0
+    
+    answer = x + y + 2 * 2 + x
+    println answer
+end
