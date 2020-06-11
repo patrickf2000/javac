@@ -1,0 +1,16 @@
+func main
+    int x = 20
+    println x
+    
+    x = 30
+    println x
+    
+    x = 31 + 23
+    println x
+    
+    x = x + 10
+    println x
+    
+    x = 100 + x
+    println x
+end

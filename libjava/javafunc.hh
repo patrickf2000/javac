@@ -24,7 +24,9 @@ enum class JavaCode {
 	None = 0x00,
 	ALoad0 = 0x2A,
 	IAdd = 0x60,
+	ISub = 0x64,
 	IMul = 0x68,
+	IDiv = 0x6C,
 	RetVoid = 0xB1
 };
 

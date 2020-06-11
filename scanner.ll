@@ -12,6 +12,9 @@ println                     { return PRINTLN; }
 end                         { return END; }
 int                         { return INT; }
 "+"                         { return '+'; }
+"-"                         { return '-'; }
+"*"                         { return '*'; }
+"/"                         { return '/'; }
 "="                         { return '='; }
 \"(\\.|[^"\\])*\" 			{yylval.stype = strdup(yytext); return STRING;}
 [ \t]                       {}
