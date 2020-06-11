@@ -92,7 +92,14 @@ int_dec:
     ;
     
 double_dec:
-    DOUBLE ID '=' FLOATL        { }
+    DOUBLE ID '=' FLOATL        { auto vd = new AstVarDec($2, DataType::Double);
+                                  currentFunc->children.push_back(vd);
+                                  
+                                  auto va = new AstVarAssign($2);
+                                  auto i = new AstFloat($4);
+                                  va->children.push_back(i);
+                                  currentFunc->children.push_back(va);
+                                }
     ;
     
 var_assign:
@@ -106,7 +113,11 @@ var_assign:
                               va->children.push_back(i);
                               currentFunc->children.push_back(va);
                             }
-    | ID '=' FLOATL         { }
+    | ID '=' FLOATL         { auto va = new AstVarAssign($1);
+                              auto i = new AstFloat($3);
+                              va->children.push_back(i);
+                              currentFunc->children.push_back(va);
+                            }
     ;
     
 math_expr:
@@ -122,7 +133,7 @@ math_expr:
     
 ld_expr:
       INTEGER       { children.push_back(new AstInt($1)); }
-    | FLOATL        { }
+    | FLOATL        { children.push_back(new AstFloat($1)); }
     | ID            { children.push_back(new AstId($1)); }
     ;
     

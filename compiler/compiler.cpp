@@ -63,10 +63,13 @@ void buildChildren(AstNode *parent) {
                                 func->loadIntVar(id->name);
                                 func->callFunc("println", "(I)V", FuncType::Virtual);
                             } break;
+                            
+                            case DataType::Double: {
+                                func->loadDoubleVar(id->name);
+                                func->callFunc("println", "(D)V", FuncType::Virtual);
+                            } break;
                         }
                     } break;
-                    
-                    //TODO: Add rest
                 }
             } break;
             
@@ -80,7 +83,11 @@ void buildChildren(AstNode *parent) {
                         func->createIntVar(vd->name, 0);
                     } break;
                     
-                    //TODO: Add rest
+                    case DataType::Double: {
+                        builder->addDouble(0.0);
+                        builder->updatePool(func);
+                        func->createDoubleVar(vd->name, 0.0);
+                    } break;
                 }
             } break;
             
@@ -117,14 +124,48 @@ void buildChildren(AstNode *parent) {
                         func->storeIntVar(va->name);
                     } break;
                     
-                    //TODO: Add rest
+                    //Double variables
+                    case DataType::Double: {
+                        for (auto arg : va->children) {
+                            switch (arg->type) {
+                                //Integers
+                                case AstType::Int: {
+                                    auto i = static_cast<AstInt *>(arg);
+                                    double flt = (double)i->val;
+                                    builder->addDouble(flt);
+                                    builder->updatePool(func);
+                                    func->loadDoubleConst(flt);
+                                } break;
+                            
+                                //Float literals
+                                case AstType::Float: {
+                                    auto flt = static_cast<AstFloat *>(arg);
+                                    builder->addDouble(flt->val);
+                                    builder->updatePool(func);
+                                    func->loadDoubleConst(flt->val);
+                                } break;
+                                
+                                //Variables
+                                case AstType::Id: {
+                                    auto id = static_cast<AstId *>(arg);
+                                    func->loadDoubleVar(id->name);
+                                } break;
+                                
+                                //Operators
+                                case AstType::Add: func->addSingle(JavaCode::DAdd); break;
+                                case AstType::Sub: func->addSingle(JavaCode::DSub); break;
+                                case AstType::Mul: func->addSingle(JavaCode::DMul); break;
+                                case AstType::Div: func->addSingle(JavaCode::DDiv); break;
+                            }
+                        }
+                        
+                        func->storeDoubleVar(va->name);
+                    } break;
                 }
             } break;
         
             //Return
             case AstType::End: func->addSingle(JavaCode::RetVoid); break;
-            
-            //TODO: Add rest
         }
     }
 }
