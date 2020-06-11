@@ -4,7 +4,7 @@ project(jc)
 find_package(BISON)
 find_package(FLEX)
 
-include_directories(libjava)
+include_directories(libjava compiler)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 set(LIB_libjava
@@ -26,6 +26,7 @@ ADD_FLEX_BISON_DEPENDENCY(scanner parser)
 set(PARSER_SRC
 	${BISON_parser_OUTPUTS}
 	${FLEX_scanner_OUTPUTS}
+	compiler/compiler.cpp
 	compiler/main.cpp
 )
 

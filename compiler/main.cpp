@@ -4,19 +4,21 @@
 #include <javafile.hh>
 #include <javapool.hh>
 
-extern void parse(const char *path, JavaBuilder *b);
+#include <ast.hh>
+
+extern void parse(const char *path, AstNode *t);
+void translateAST(AstNode *tree);
 
 int main(int argc, char *argv[]) {
-    auto *builder = new JavaBuilder("Test1");
-    builder->useOutput();
+    AstNode *tree = new AstNode;
 
 	if (argc > 1) {
-		parse(argv[1], builder);
+		parse(argv[1], tree);
 	} else {
-		parse("", builder);
+		parse("", tree);
 	}
 	
-	builder->write();
+	translateAST(tree);
 	
 	return 0;
 }
