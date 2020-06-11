@@ -30,11 +30,13 @@ void yyerror(const char *s);
 %token PRINTLN
 %token END
 %token INT
-%token ASSIGN
 %token <stype> ID
 %token <itype> INTEGER 
 %token <ftype> FLOAT
 %token <stype> STRING
+
+%token '+'
+%token '='
 
 %%
 all_statements: statement all_statements | /* empty */;
@@ -72,11 +74,27 @@ println:
     ;
     
 int_dec:
-    INT ID ASSIGN INTEGER     { current->createIntVar($2, $4); }
+    INT ID '=' INTEGER     { current->createIntVar($2, $4); }
     ;
     
 var_assign:
-    ID ASSIGN INTEGER         { current->storeIntVar($1, $3); }
+      ID '=' math_expr                  { current->storeIntVar($1); }
+    | ID '=' INTEGER                    { current->storeIntVar($1, $3); }
+    ;
+    
+math_expr:
+    INTEGER '+' INTEGER         { current->loadInt($1);
+                                  current->loadInt($3);
+                                  current->addSingle(JavaCode::IAdd);
+                                }
+    | ID '+' INTEGER            { current->loadIntVar($1);
+                                  current->loadInt($3);
+                                  current->addSingle(JavaCode::IAdd);
+                                }
+    | INTEGER '+' ID            { current->loadInt($1);
+                                  current->loadIntVar($3);
+                                  current->addSingle(JavaCode::IAdd);
+                                }
     ;
     
 end:
