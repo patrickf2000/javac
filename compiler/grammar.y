@@ -92,7 +92,11 @@ double_dec:
     
 var_assign:
       ID '=' math_expr      { }
-    | ID '=' INTEGER        { }
+    | ID '=' INTEGER        { auto va = new AstVarAssign($1);
+                              auto i = new AstInt($3);
+                              va->children.push_back(i);
+                              currentFunc->children.push_back(va);
+                            }
     | ID '=' FLOATL         { }
     ;
     
