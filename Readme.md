@@ -1,9 +1,9 @@
 ## jc
 
 ### Introduction
-This is a very simple library for generating Java bytecode. Currently, it can do a few simple things like reference libraries, create and initalize classes (which can be stored as class variables), perform some integer operations (including creating integer variables), and work with multiple internal functions. The library is four layers; at the bottom is the JavaFile class, which creates and setups the actual class file. The JavaPool class creates and manages the constant pool. The JavaFunc class allows you to create functions and the code that goes in those functions. Finally, the JavaBuilder class wraps all that around a much easier to use interface. For examples on each, see one of the four test programs.
+This is a very simple library for generating Java bytecode. Currently, it can do a few simple things like reference libraries, create and initalize classes (which can be stored as class variables), perform some integer operations (including creating integer variables), and work with multiple internal functions. The library is four layers; at the bottom is the JavaFile class, which creates and setups the actual class file. The JavaPool class creates and manages the constant pool. The JavaFunc class allows you to create functions and the code that goes in those functions. Finally, the JavaBuilder class wraps all that around a much easier to use interface.
 
-Please note that this is not a true compiler. If anything, it is more of an assembler. My plan is to eventually include it as a backend in my extcc compiler. I may maintain this as a seperate project, depending on how things go.
+While the library code is separate, I'm creating a simple frontend for my Quik language to provide an easier method for testing (and better examples with how to use it). See the test folders for examples of the Quik syntax and the API.
 
 
 ### Useful links
