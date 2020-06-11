@@ -16,6 +16,7 @@ JavaBuilder *builder;
 JavaFunc *current;
 
 std::string getString(char *in);
+void updateCodes();
 
 int yylex();
 void yyerror(const char *s);
@@ -28,6 +29,13 @@ enum class DataType {
 };
 
 std::map<std::string, DataType> vars;
+DataType currentType = DataType::None;
+
+//Type-specific opcodes
+JavaCode Add = JavaCode::IAdd;
+JavaCode Sub = JavaCode::ISub;
+JavaCode Mul = JavaCode::IMul;
+JavaCode Div = JavaCode::IDiv;
 %}
 
 %union {
@@ -113,7 +121,17 @@ double_dec:
     ;
     
 var_assign:
-      ID '=' math_expr      { current->storeIntVar($1); }
+      ID '=' math_expr      { currentType = vars[$1];
+                              updateCodes();
+                              
+                              if (currentType == DataType::Int) {
+                                  current->storeIntVar($1);
+                              } else if (currentType == DataType::Double) {
+                                  current->storeDoubleVar($1);
+                              } else {
+                                  puts("UNKNOWN VAR");
+                              }
+                            }
     | ID '=' INTEGER        { current->storeIntVar($1, $3); }
     | ID '=' FLOATL         { builder->addDouble($3);
                               builder->updatePool(current);
@@ -121,18 +139,22 @@ var_assign:
     ;
     
 math_expr:
-      math_expr '+' ld_expr   { current->addSingle(JavaCode::IAdd); }
-    | math_expr '-' ld_expr   { current->addSingle(JavaCode::ISub); }
-    | math_expr '*' ld_expr   { current->addSingle(JavaCode::IMul); }
-    | math_expr '/' ld_expr   { current->addSingle(JavaCode::IDiv); }
-    | ld_expr '+' ld_expr     { current->addSingle(JavaCode::IAdd); }
-    | ld_expr '-' ld_expr     { current->addSingle(JavaCode::ISub); }
-    | ld_expr '*' ld_expr     { current->addSingle(JavaCode::IMul); }
-    | ld_expr '/' ld_expr     { current->addSingle(JavaCode::IDiv); }
+      math_expr '+' ld_expr   { current->addSingle(Add); }
+    | math_expr '-' ld_expr   { current->addSingle(Sub); }
+    | math_expr '*' ld_expr   { current->addSingle(Mul); }
+    | math_expr '/' ld_expr   { current->addSingle(Div); }
+    | ld_expr '+' ld_expr     { current->addSingle(Add); }
+    | ld_expr '-' ld_expr     { current->addSingle(Sub); }
+    | ld_expr '*' ld_expr     { current->addSingle(Mul); }
+    | ld_expr '/' ld_expr     { current->addSingle(Div); }
     ;
     
 ld_expr:
       INTEGER       { current->loadInt($1); }
+    | FLOATL        { builder->addDouble($1);
+                      builder->updatePool(current);
+                      current->loadDoubleConst($1);
+                    }
     | ID            { current->loadIntVar($1); }
     ;
     
@@ -151,6 +173,23 @@ std::string getString(char *in) {
     }
     
     return ret;
+}
+
+//Update type-specific opcodes
+void updateCodes() {
+    if (currentType == DataType::Int) {
+        Add = JavaCode::IAdd;
+        Sub = JavaCode::ISub;
+        Mul = JavaCode::IMul;
+        Div = JavaCode::IDiv;
+    } else if (currentType == DataType::Double) {
+        Add = JavaCode::DAdd;
+        Sub = JavaCode::DSub;
+        Mul = JavaCode::DMul;
+        Div = JavaCode::DDiv;
+    } else {
+    
+    }
 }
 
 //Our parsing function

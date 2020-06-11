@@ -23,10 +23,17 @@ enum class FuncType {
 enum class JavaCode {
 	None = 0x00,
 	ALoad0 = 0x2A,
+	
 	IAdd = 0x60,
 	ISub = 0x64,
 	IMul = 0x68,
 	IDiv = 0x6C,
+	
+	DAdd = 0x63,
+	DSub = 0x67,
+	DMul = 0x6B,
+	DDiv = 0x6F,
+	
 	RetVoid = 0xB1
 };
 
