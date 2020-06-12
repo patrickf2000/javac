@@ -76,7 +76,7 @@ void buildChildren(AstNode *parent) {
             //Functions call
             case AstType::FuncCall: {
                 auto fc = static_cast<AstFuncCall *>(child);
-                func->callFunc(fc->name, "()V", FuncType::Virtual);
+                func->callFunc(fc->name, "()V", FuncType::Static);
             } break;
             
             //Variable declaration

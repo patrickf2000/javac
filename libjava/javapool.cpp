@@ -93,7 +93,8 @@ void JavaPool::addAttribute(std::string attr) {
 
 void JavaPool::addRef(Ref ref, bool internal) {
 	int index = pool[ref.base_lib];
-	if (internal) index = pool[ref.base_lib] - 1;
+	//if (internal) index = pool[ref.base_lib] - 1;
+	if (internal) index = pool[ref.base_lib];
 	
 	code.push_back((unsigned char)index);
 	code.push_back(0x00);

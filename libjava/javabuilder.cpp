@@ -106,8 +106,14 @@ JavaFunc *JavaBuilder::createMain() {
 
 //Creates an empty function
 JavaFunc *JavaBuilder::createFunc(std::string name) {
-    jpool->addAttribute(name);
-    jpool->addAttribute("()V");
+    Ref ref;
+	ref.base_lib = class_name;
+	ref.name = name;
+	ref.type = "()V";
+	jpool->useMethod(ref, true);
+	
+	jpool->addAttribute(name);
+	jpool->addAttribute("()V");
 
     auto func = new JavaFunc(name, "()V");
 	func->setPool(jpool);
