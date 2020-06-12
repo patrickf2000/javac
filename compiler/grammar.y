@@ -85,6 +85,16 @@ func_call:
     ID '(' ')'              { auto fc = new AstFuncCall($1);
                               currentFunc->children.push_back(fc);
                             }
+    | ID '(' args ')'       { auto fc = new AstFuncCall($1);
+                              fc->children = children;
+                              children.clear();
+                              currentFunc->children.push_back(fc);
+                            }
+    ;
+    
+args:
+    ld_expr                   { }
+    | ld_expr ',' args        { }
     ;
     
 int_dec:

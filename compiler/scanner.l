@@ -20,6 +20,7 @@ double                      { return DOUBLE; }
 "="                         { return '='; }
 "("                         { return '('; }
 ")"                         { return ')'; }
+","                         { return ','; }
 \"(\\.|[^"\\])*\" 			{yylval.stype = strdup(yytext); return STRING;}
 [ \t]                       {}
 \n                          {}
