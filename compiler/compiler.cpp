@@ -80,7 +80,8 @@ void buildChildren(AstNode *parent) {
                 
                 switch (vd->dType) {
                     case DataType::Int: {
-                        func->createIntVar(vd->name, 0);
+                        auto i = static_cast<AstInt *>(vd->children[0]);
+                        func->createIntVar(vd->name, i->val);
                     } break;
                     
                     case DataType::Double: {
