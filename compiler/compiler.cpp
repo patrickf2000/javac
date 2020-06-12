@@ -95,7 +95,11 @@ void buildChildren(AstNode *parent) {
                             auto dType = vars[id->name];
                             
                             switch (dType) {
-                                case DataType::Int: sig += "I"; break;
+                                case DataType::Int: {
+                                    sig += "I";
+                                    func->loadIntVar(id->name);
+                                } break;
+                                
                                 case DataType::Double: sig += "D"; break;
                             }
                         } break;
