@@ -196,7 +196,7 @@ void translateAST(AstNode *tree) {
         if (fd->name == "main") {
             func = builder->createMain();
         } else {
-            //TODO: Non-main function
+            func = builder->createFunc(fd->name);
         }
         
         buildChildren(child);

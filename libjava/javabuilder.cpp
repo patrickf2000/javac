@@ -104,6 +104,20 @@ JavaFunc *JavaBuilder::createMain() {
 	return func;
 }
 
+//Creates an empty function
+JavaFunc *JavaBuilder::createFunc(std::string name) {
+    jpool->addAttribute(name);
+    jpool->addAttribute("()V");
+
+    auto func = new JavaFunc(name, "()V");
+	func->setPool(jpool);
+	func->setAttributes(JFuncAttr::Public);
+	func->setAttributes(JFuncAttr::Static);
+	
+	jfile->addFunc(func);
+	return func;
+}
+
 void JavaBuilder::updatePool(JavaFunc *f) {
     f->setPool(jpool);
 }

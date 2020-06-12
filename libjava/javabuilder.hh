@@ -21,6 +21,7 @@ public:
 	
 	JavaFunc *createConstructor(bool init=false);
 	JavaFunc *createMain();
+	JavaFunc *createFunc(std::string name);
 	void updatePool(JavaFunc *f);
 	
 	JavaFile *jfile;
