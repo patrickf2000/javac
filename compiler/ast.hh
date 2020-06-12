@@ -55,6 +55,7 @@ public:
         name = n;
     }
 
+    std::string sig = "()V";
     std::string name = "";
 };
 

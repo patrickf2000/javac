@@ -75,8 +75,35 @@ void buildChildren(AstNode *parent) {
             
             //Functions call
             case AstType::FuncCall: {
+                std::string sig = "(";
+            
                 auto fc = static_cast<AstFuncCall *>(child);
-                func->callFunc(fc->name, "()V", FuncType::Static);
+                
+                for (auto arg : fc->children) {
+                    switch (arg->type) {
+                        case AstType::Int: {
+                            sig += "I";
+                            
+                            auto i = static_cast<AstInt *>(arg);
+                            func->loadInt(i->val);
+                        } break;
+                        
+                        case AstType::Float: sig += "D"; break;
+                        
+                        case AstType::Id: {
+                            auto id = static_cast<AstId *>(arg);
+                            auto dType = vars[id->name];
+                            
+                            switch (dType) {
+                                case DataType::Int: sig += "I"; break;
+                                case DataType::Double: sig += "D"; break;
+                            }
+                        } break;
+                    }
+                }
+                
+                sig += ")V";
+                func->callFunc(fc->name, sig, FuncType::Static);
             } break;
             
             //Variable declaration
@@ -202,7 +229,7 @@ void translateAST(AstNode *tree) {
         if (fd->name == "main") {
             func = builder->createMain();
         } else {
-            func = builder->createFunc(fd->name);
+            func = builder->createFunc(fd->name, fd->sig);
         }
         
         builder->updatePool(func);

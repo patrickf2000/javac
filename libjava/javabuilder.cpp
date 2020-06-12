@@ -105,20 +105,27 @@ JavaFunc *JavaBuilder::createMain() {
 }
 
 //Creates an empty function
-JavaFunc *JavaBuilder::createFunc(std::string name) {
+JavaFunc *JavaBuilder::createFunc(std::string name, std::string sig) {
     Ref ref;
 	ref.base_lib = class_name;
 	ref.name = name;
-	ref.type = "()V";
+	ref.type = sig;
 	jpool->useMethod(ref, true);
 	
 	jpool->addAttribute(name);
-	jpool->addAttribute("()V");
+	jpool->addAttribute(sig);
 
-    auto func = new JavaFunc(name, "()V");
+    auto func = new JavaFunc(name, sig);
 	func->setPool(jpool);
 	func->setAttributes(JFuncAttr::Public);
 	func->setAttributes(JFuncAttr::Static);
+	
+	//Load any arguments
+	for (int i = 1; i<sig.length(); i++) {
+	    if (sig[i] == ')') break;
+	    
+	    //TODO:
+	}
 	
 	jfile->addFunc(func);
 	return func;

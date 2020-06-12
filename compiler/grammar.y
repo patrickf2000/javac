@@ -16,7 +16,10 @@ void yyerror(const char *s);
 
 AstNode *tree;
 AstFuncDec *currentFunc;
+
 std::vector<AstNode *> children;
+std::string args = "";
+std::string ret = "V";
 %}
 
 %union {
@@ -51,7 +54,22 @@ statement:
 	;
 	
 func_dec:
-    FUNC ID             { currentFunc = new AstFuncDec($2); }
+    FUNC ID                         { currentFunc = new AstFuncDec($2); }
+    | FUNC ID '(' dec_args ')'      { currentFunc = new AstFuncDec($2);
+                                      currentFunc->sig = "(" + args + ")" + ret;
+                                      args = "";
+                                      ret = "V";
+                                    }
+    ;
+    
+dec_args:
+    dec_arg
+    | dec_arg ',' dec_args
+    ;
+    
+dec_arg:
+    ID ':' INT          { args += "I"; }
+    | ID ':' DOUBLE     { args += "D"; }
     ;
     
 println:
