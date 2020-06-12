@@ -14,5 +14,11 @@ public class Test_Test002 {
         
         x = 100 + x;
         System.out.println(x);
+        
+        int y = 20 * 2;
+        System.out.println(y);
+       
+        int z = y;
+        System.out.println(z);
     }
 }

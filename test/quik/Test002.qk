@@ -13,4 +13,10 @@ func main
     
     x = 100 + x
     println x
+    
+    int y = 20 * 2
+    println y
+   
+    int z = y
+    println z
 end
