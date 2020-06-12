@@ -229,7 +229,7 @@ void translateAST(AstNode *tree) {
         if (fd->name == "main") {
             func = builder->createMain();
         } else {
-            func = builder->createFunc(fd->name, fd->sig);
+            func = builder->createFunc(fd->name, fd->sig, fd->args);
         }
         
         builder->updatePool(func);

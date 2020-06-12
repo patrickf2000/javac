@@ -18,6 +18,7 @@ AstNode *tree;
 AstFuncDec *currentFunc;
 
 std::vector<AstNode *> children;
+std::vector<std::string> strList;
 std::string args = "";
 std::string ret = "V";
 %}
@@ -59,6 +60,8 @@ func_dec:
                                       currentFunc->sig = "(" + args + ")" + ret;
                                       args = "";
                                       ret = "V";
+                                      currentFunc->args = strList;
+                                      strList.clear();
                                     }
     ;
     
@@ -68,8 +71,8 @@ dec_args:
     ;
     
 dec_arg:
-    ID ':' INT          { args += "I"; }
-    | ID ':' DOUBLE     { args += "D"; }
+    ID ':' INT          { strList.push_back($1); args += "I"; }
+    | ID ':' DOUBLE     { strList.push_back($1); args += "D"; }
     ;
     
 println:

@@ -63,6 +63,7 @@ public:
 	void storeIntVar(std::string var);
 	void storeIntVar(std::string var, int val);
 	void createIntVar(std::string var, int val);
+	void createIntArg(std::string var);
 	
 	//Double functions
 	void loadDoubleVar(std::string var);

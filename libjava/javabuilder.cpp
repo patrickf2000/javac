@@ -105,7 +105,7 @@ JavaFunc *JavaBuilder::createMain() {
 }
 
 //Creates an empty function
-JavaFunc *JavaBuilder::createFunc(std::string name, std::string sig) {
+JavaFunc *JavaBuilder::createFunc(std::string name, std::string sig, std::vector<std::string> args) {
     Ref ref;
 	ref.base_lib = class_name;
 	ref.name = name;
@@ -122,9 +122,11 @@ JavaFunc *JavaBuilder::createFunc(std::string name, std::string sig) {
 	
 	//Load any arguments
 	for (int i = 1; i<sig.length(); i++) {
-	    if (sig[i] == ')') break;
-	    
-	    //TODO:
+	    if (sig[i] == ')') {
+	        break;
+	    } else if (sig[i] == 'I') {
+	        func->createIntArg(args[i-1]);
+	    }
 	}
 	
 	jfile->addFunc(func);

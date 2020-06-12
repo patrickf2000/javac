@@ -183,6 +183,13 @@ void JavaFunc::createIntVar(std::string var, int val) {
 	storeIntVar(var, val);
 }
 
+//Reference and integer variable
+void JavaFunc::createIntArg(std::string var) {
+    int_vars[var] = var_index - 1;
+    ++var_index;
+    ++locals;
+}
+
 //Double functions
 //=================================================
 

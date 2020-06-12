@@ -57,6 +57,7 @@ public:
 
     std::string sig = "()V";
     std::string name = "";
+    std::vector<std::string> args;
 };
 
 //Println
