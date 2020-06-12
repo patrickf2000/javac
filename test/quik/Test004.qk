@@ -3,6 +3,6 @@ func main
     int y = 4
     int answer = 0
     
-    answer = x + y + 2 * 2 + x
+    answer = x * y + 2 - 2 + x
     println answer
 end
