@@ -21,6 +21,8 @@ std::vector<AstNode *> children;
 std::vector<std::string> strList;
 std::string args = "";
 std::string ret = "V";
+
+bool inCond = false;
 %}
 
 %union {
@@ -33,6 +35,7 @@ std::string ret = "V";
 %token PRINTLN
 %token END
 %token INT FLOAT DOUBLE
+%token IF ELIF ELSE
 %token <stype> ID
 %token <itype> INTEGER 
 %token <ftype> FLOATL
@@ -51,6 +54,8 @@ statement:
     | int_dec
     | double_dec
     | var_assign
+    | cond_if
+    | cond_else
     | end
 	;
 	
@@ -178,15 +183,36 @@ math_expr:
     | ld_expr '/' ld_expr     { children.push_back(new AstNode(AstType::Div)); }
     ;
     
+cond_if:
+    IF ld_expr operator ld_expr     { auto cmp = new AstNode(AstType::If);
+                                      cmp->children = children;
+                                      children.clear();
+                                      currentFunc->children.push_back(cmp);
+                                    }
+    ;
+    
+cond_else:
+    ELSE            { currentFunc->children.push_back(new AstNode(AstType::Else)); }
+    ;
+    
 ld_expr:
       INTEGER       { children.push_back(new AstInt($1)); }
     | FLOATL        { children.push_back(new AstFloat($1)); }
     | ID            { children.push_back(new AstId($1)); }
     ;
     
+operator:
+      '>'           { children.push_back(new AstNode(AstType::Greater)); }
+    | '<'           { children.push_back(new AstNode(AstType::Less)); }
+    ;
+    
 end:
     END             { currentFunc->children.push_back(new AstEnd);
-                      tree->children.push_back(currentFunc);
+                      if (inCond) {
+                          inCond = false;
+                      } else {
+                          tree->children.push_back(currentFunc);
+                      }
                     }
     ;
 

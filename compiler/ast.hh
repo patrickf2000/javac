@@ -16,11 +16,22 @@ enum class AstType {
     VarDec,
     VarAssign,
     
+    //Comparison stuff
+    If,
+    Elif,
+    Else,
+    
     //Operators
     Add,
     Sub,
     Mul,
     Div,
+    
+    //Comparison operators
+    Equal,
+    NotEqual,
+    Greater,
+    Less,
     
     //Data types
     Int,

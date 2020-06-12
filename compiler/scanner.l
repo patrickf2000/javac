@@ -13,6 +13,9 @@ end                         { return END; }
 int                         { return INT; }
 float                       { return FLOAT; }
 double                      { return DOUBLE; }
+if                          { return IF; }
+elif                        { return ELIF; }
+else                        { return ELSE; }
 "+"                         { return '+'; }
 "-"                         { return '-'; }
 "*"                         { return '*'; }
@@ -22,6 +25,8 @@ double                      { return DOUBLE; }
 ")"                         { return ')'; }
 ","                         { return ','; }
 ":"                         { return ':'; }
+">"                         { return '>'; }
+"<"                         { return '<'; }
 \"(\\.|[^"\\])*\" 			{yylval.stype = strdup(yytext); return STRING;}
 [ \t]                       {}
 \n                          {}
