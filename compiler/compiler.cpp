@@ -85,9 +85,12 @@ void buildChildren(AstNode *parent) {
                     } break;
                     
                     case DataType::Double: {
-                        builder->addDouble(0.0);
+                        auto flt = static_cast<AstFloat *>(vd->children[0]);
+                        double val = flt->val;
+                    
+                        builder->addDouble(val);
                         builder->updatePool(func);
-                        func->createDoubleVar(vd->name, 0.0);
+                        func->createDoubleVar(vd->name, val);
                     } break;
                 }
             } break;
