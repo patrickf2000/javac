@@ -143,6 +143,7 @@ void JavaFunc::loadIntVar(std::string var) {
 	int pos = int_vars[var];
 	
 	switch (pos) {
+	    case 0: code.push_back(0x1A); break;
 		case 1: code.push_back(0x1B); break;
 		case 2: code.push_back(0x1C); break;
 		case 3: code.push_back(0x1D); break;
@@ -158,6 +159,7 @@ void JavaFunc::storeIntVar(std::string var) {
 	int pos = int_vars[var];
 
 	switch (pos) {
+	    case 0: code.push_back(0x3B); break;
 		case 1: code.push_back(0x3C); break;
 		case 2: code.push_back(0x3D); break;
 		case 3: code.push_back(0x3E); break;
