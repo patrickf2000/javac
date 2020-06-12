@@ -1,0 +1,17 @@
+func addTwo(x:int, y:int)
+    int answer = x + y
+    println answer
+end
+
+func main
+   println "Main"
+   
+   addTwo(20, 30)
+   
+   int x = 20
+   int y = 33
+   
+   addTwo(20, x)
+   addTwo(y, 20)
+   addTwo(x, y)
+end
