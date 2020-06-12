@@ -54,10 +54,12 @@ void JavaFunc::loadDoubleConst(double d) {
 //Invoke a function
 void JavaFunc::callFunc(std::string name, std::string type, FuncType ftype) {
 	short loco = 0;
+	bool found = false;
 
 	for (auto func : refs) {
 		if (func.name == name && func.type == type) {
 			loco = func.pos;
+			found = true;
 		}
 	}
 	

@@ -73,6 +73,12 @@ void buildChildren(AstNode *parent) {
                 }
             } break;
             
+            //Functions call
+            case AstType::FuncCall: {
+                auto fc = static_cast<AstFuncCall *>(child);
+                func->callFunc(fc->name, "()V", FuncType::Virtual);
+            } break;
+            
             //Variable declaration
             case AstType::VarDec: {
                 auto vd = static_cast<AstVarDec *>(child);
@@ -199,6 +205,7 @@ void translateAST(AstNode *tree) {
             func = builder->createFunc(fd->name);
         }
         
+        builder->updatePool(func);
         buildChildren(child);
     }
     

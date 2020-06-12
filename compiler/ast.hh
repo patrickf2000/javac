@@ -9,6 +9,7 @@ enum class AstType {
     //Function stuff
     FuncDec,
     Println,
+    FuncCall,
     End,
     
     //Variable stuff
@@ -63,6 +64,17 @@ public:
     AstPrintln() {
         type = AstType::Println;
     }
+};
+
+//Function call
+class AstFuncCall : public AstNode {
+public:
+    explicit AstFuncCall(std::string name) {
+        type = AstType::FuncCall;
+        this->name = name;
+    }
+    
+    std::string name = "";
 };
 
 //End of a function

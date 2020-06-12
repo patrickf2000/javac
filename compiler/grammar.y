@@ -43,6 +43,7 @@ all_statements: statement all_statements | /* empty */;
 statement:
       func_dec
     | println
+    | func_call
     | int_dec
     | double_dec
     | var_assign
@@ -78,6 +79,12 @@ println:
                           println->children.push_back(id);
                           currentFunc->children.push_back(println);
                         }
+    ;
+    
+func_call:
+    ID '(' ')'              { auto fc = new AstFuncCall($1);
+                              currentFunc->children.push_back(fc);
+                            }
     ;
     
 int_dec:
