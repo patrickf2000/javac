@@ -86,6 +86,21 @@ int_dec:
                                   vd->children.push_back(i);
                                   currentFunc->children.push_back(vd);
                                 }
+    | INT ID '=' math_expr      { auto vd = new AstVarDec($2, DataType::Int);
+                                  currentFunc->children.push_back(vd);
+                                  
+                                  auto va = new AstVarAssign($2);
+                                  va->children = children;
+                                  children.clear();
+                                  currentFunc->children.push_back(va);
+                                }
+    | INT ID '=' ID             { auto vd = new AstVarDec($2, DataType::Int);
+                                  currentFunc->children.push_back(vd);
+                                  
+                                  auto va = new AstVarAssign($2);
+                                  va->children.push_back(new AstId($4));
+                                  currentFunc->children.push_back(va);
+                                }
     ;
     
 double_dec:
